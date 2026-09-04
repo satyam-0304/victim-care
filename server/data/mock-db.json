@@ -1,0 +1,729 @@
+{
+  "_comment": "MOCK DATA — MVP Development Only. Replace victim names and personal details before production.",
+  "victims": [
+    {
+      "victim_id": "V-1001",
+      "name": "Sarah Mitchell",
+      "age": 34,
+      "gender": "Female",
+      "location": "Mumbai",
+      "crime_category": "Witness Intimidation",
+      "current_distress_score": 92,
+      "current_risk_level": "Critical",
+      "case_status": "Active",
+      "assigned_counselor": "GOV-C-001",
+      "registered_date": "2026-08-15T09:00:00Z",
+      "last_interaction": "2026-09-04T17:28:00Z",
+      "case_notes": "Victim has been showing signs of severe PTSD. Escalating threat pattern detected. Requires immediate intervention and safe house consideration.\nvictim has been relaxed  ",
+      "history": [
+        {
+          "entry_id": "H-1001-1",
+          "timestamp": "2026-08-31T09:00:00Z",
+          "user_message": "I can't sleep at all anymore. The people who were at the scene keep driving past my house slowly.",
+          "ai_reply": "I hear you, and I want you to know that what you're feeling is completely understandable. Your safety is our absolute top priority. Can you tell me more about how often this is happening and at what times?",
+          "distress_score": 65,
+          "recommended_action": "Schedule follow-up session within 24 hours. Brief local patrol of residential area.",
+          "action_taken": true,
+          "action_taken_at": "2026-08-31T10:30:00Z",
+          "action_taken_by": "GOV-C-001"
+        },
+        {
+          "entry_id": "H-1001-2",
+          "timestamp": "2026-09-01T14:00:00Z",
+          "user_message": "Someone was standing outside my building last night for over two hours. I'm absolutely terrified to go out.",
+          "ai_reply": "That sounds extremely frightening, and I want you to know you did the right thing by reaching out. I am documenting this incident immediately and flagging it for our security team. Are you in a safe place right now?",
+          "distress_score": 70,
+          "recommended_action": "Alert local police for increased patrols. Consider safe house options.",
+          "action_taken": true,
+          "action_taken_at": "2026-09-01T14:45:00Z",
+          "action_taken_by": "GOV-C-001"
+        },
+        {
+          "entry_id": "H-1001-3",
+          "timestamp": "2026-09-02T11:00:00Z",
+          "user_message": "I received an anonymous call this morning telling me to withdraw my testimony or face consequences. They knew my schedule.",
+          "ai_reply": "This is a serious and direct threat that I am escalating to the witness protection team immediately. Please do not answer any unknown numbers. Our security team will be in contact with you within the hour.",
+          "distress_score": 78,
+          "recommended_action": "Escalate to witness protection team. Initiate threat trace on anonymous call. Immediate phone security briefing.",
+          "action_taken": true,
+          "action_taken_at": "2026-09-02T11:30:00Z",
+          "action_taken_by": "GOV-C-001"
+        },
+        {
+          "entry_id": "H-1001-4",
+          "timestamp": "2026-09-03T16:00:00Z",
+          "user_message": "I don't think I can keep going with this. I'm thinking of running away before the court date. I can't protect my family.",
+          "ai_reply": "I understand you feel completely overwhelmed right now, and your instinct to protect your family is understandable. Your courage in this situation is remarkable. Let's talk through your safety options together — there are concrete steps we can take right now.",
+          "distress_score": 85,
+          "recommended_action": "Arrange emergency in-person counseling session. Evaluate witness protection programme enrollment.",
+          "action_taken": false,
+          "action_taken_at": null,
+          "action_taken_by": null
+        },
+        {
+          "entry_id": "H-1001-5",
+          "timestamp": "2026-09-04T17:28:00Z",
+          "user_message": "They broke into my car and left a note with my daughter's school name on it. Please help me. I'm scared.",
+          "ai_reply": "I am alerting your support liaison and local authorities RIGHT NOW. This constitutes an active threat. Please stay indoors, lock all doors, and keep your phone with you. A security officer will be at your location within 30 minutes.",
+          "distress_score": 92,
+          "recommended_action": "IMMEDIATE: Notify local witness protection liaison. Dispatch security to victim location. Escalate to case supervisor. Contact school to increase security for victim's child.",
+          "action_taken": true,
+          "action_taken_at": "2026-09-04T18:08:58.608Z",
+          "action_taken_by": "GOV-C-002"
+        }
+      ],
+      "notes_updated_at": "2026-09-04T18:13:24.594Z",
+      "notes_updated_by": "GOV-C-002"
+    },
+    {
+      "victim_id": "V-1002",
+      "name": "James Okafor",
+      "age": 28,
+      "gender": "Male",
+      "location": "Delhi",
+      "crime_category": "Domestic Abuse",
+      "current_distress_score": 88,
+      "current_risk_level": "Critical",
+      "case_status": "Active",
+      "assigned_counselor": "GOV-C-001",
+      "registered_date": "2026-08-20T10:00:00Z",
+      "last_interaction": "2026-09-04T14:10:00Z",
+      "case_notes": "Victim returned to shared residence after shelter stay. Pattern of escalating abuse incidents. Risk of re-victimization is high.",
+      "history": [
+        {
+          "entry_id": "H-1002-1",
+          "timestamp": "2026-08-31T08:00:00Z",
+          "user_message": "Things were okay for a few days but now it's starting again. The shouting, the threats.",
+          "ai_reply": "Thank you for reaching out. The cycle you are describing is very common and is not your fault. Can you tell me if you feel physically safe right now?",
+          "distress_score": 55,
+          "recommended_action": "Monitor daily. Provide hotline numbers and safety planning document.",
+          "action_taken": true,
+          "action_taken_at": "2026-08-31T09:00:00Z",
+          "action_taken_by": "GOV-C-001"
+        },
+        {
+          "entry_id": "H-1002-2",
+          "timestamp": "2026-09-01T22:30:00Z",
+          "user_message": "There was a physical incident tonight. I locked myself in the bathroom. I don't know what to do.",
+          "ai_reply": "Your safety is the only priority right now. If you are in immediate danger, please call emergency services. I am flagging your case as urgent and contacting your case officer.",
+          "distress_score": 68,
+          "recommended_action": "Flag for urgent review. Contact emergency services if consent given. Arrange shelter intake within 12 hours.",
+          "action_taken": true,
+          "action_taken_at": "2026-09-01T22:45:00Z",
+          "action_taken_by": "GOV-C-001"
+        },
+        {
+          "entry_id": "H-1002-3",
+          "timestamp": "2026-09-02T10:00:00Z",
+          "user_message": "I had to go to the hospital. They documented the injuries. I feel ashamed.",
+          "ai_reply": "You have absolutely nothing to be ashamed of. What happened to you is a crime and it is not your fault. The documentation from the hospital is an important step. You showed incredible strength going there.",
+          "distress_score": 75,
+          "recommended_action": "Request hospital documentation for case file. Connect with legal aid. Arrange temporary shelter.",
+          "action_taken": true,
+          "action_taken_at": "2026-09-02T11:00:00Z",
+          "action_taken_by": "GOV-C-001"
+        },
+        {
+          "entry_id": "H-1002-4",
+          "timestamp": "2026-09-03T16:00:00Z",
+          "user_message": "He's been calling me non-stop begging me to come back. Part of me wants to believe he's changed.",
+          "ai_reply": "This is a very common and painful part of this situation. These feelings don't mean you're weak — they mean you care. Let's talk about what 'changed' would actually look like and how to stay safe.",
+          "distress_score": 80,
+          "recommended_action": "Counseling session on reconciliation risks. Reinforce safety planning. Contact legal aid re: protection order.",
+          "action_taken": false,
+          "action_taken_at": null,
+          "action_taken_by": null
+        },
+        {
+          "entry_id": "H-1002-5",
+          "timestamp": "2026-09-04T14:10:00Z",
+          "user_message": "He found out where the shelter is. He was outside last night. I don't feel safe anywhere.",
+          "ai_reply": "This is a serious breach and I am treating this as an emergency. I am contacting shelter management and local authorities right now. We will need to arrange an immediate transfer to a secure location.",
+          "distress_score": 88,
+          "recommended_action": "IMMEDIATE: Emergency shelter transfer. File harassment complaint. Arrange police protection. Counselor to call within 1 hour.",
+          "action_taken": true,
+          "action_taken_at": "2026-09-04T18:07:29.762Z",
+          "action_taken_by": "GOV-C-001"
+        }
+      ]
+    },
+    {
+      "victim_id": "V-1003",
+      "name": "Priya Sharma",
+      "age": 41,
+      "gender": "Female",
+      "location": "Bangalore",
+      "crime_category": "Human Trafficking",
+      "current_distress_score": 76,
+      "current_risk_level": "High",
+      "case_status": "Active",
+      "assigned_counselor": "GOV-C-002",
+      "registered_date": "2026-07-10T11:00:00Z",
+      "last_interaction": "2026-09-04T09:15:00Z",
+      "case_notes": "Victim rescued 2 months ago. Undergoing rehabilitation. Shows improvement but has setbacks when discussing recruitment process. Nightmares persist.",
+      "history": [
+        {
+          "entry_id": "H-1003-1",
+          "timestamp": "2026-08-31T10:00:00Z",
+          "user_message": "I had a nightmare again. I saw the faces of the people who recruited me. I woke up screaming.",
+          "ai_reply": "Nightmares are a very common part of recovery from trauma. You are safe now. Can you try a grounding exercise with me? Name 5 things you can see around you right now.",
+          "distress_score": 80,
+          "recommended_action": "Refer to trauma specialist for PTSD therapy. Review sleep hygiene plan.",
+          "action_taken": true,
+          "action_taken_at": "2026-08-31T11:00:00Z",
+          "action_taken_by": "GOV-C-002"
+        },
+        {
+          "entry_id": "H-1003-2",
+          "timestamp": "2026-09-01T15:00:00Z",
+          "user_message": "The therapist session went okay today. I'm trying to focus on the future but it's hard.",
+          "ai_reply": "That is genuinely wonderful progress. Going to therapy and engaging with it takes immense courage. Focusing on the future is exactly the right direction. What is one small thing you are looking forward to?",
+          "distress_score": 72,
+          "recommended_action": "Continue therapy sessions. Update rehabilitation progress notes.",
+          "action_taken": true,
+          "action_taken_at": "2026-09-01T15:30:00Z",
+          "action_taken_by": "GOV-C-002"
+        },
+        {
+          "entry_id": "H-1003-3",
+          "timestamp": "2026-09-02T11:00:00Z",
+          "user_message": "I saw someone on the street today who looked like one of the people who held me. I panicked and ran.",
+          "ai_reply": "What you experienced is called a trauma trigger and it is a very normal response. You did the right thing by moving away. Are you in a safe place now? Let's work through what happened together.",
+          "distress_score": 68,
+          "recommended_action": "Document trigger incident. Discuss trigger management strategies in next therapy session.",
+          "action_taken": true,
+          "action_taken_at": "2026-09-02T12:00:00Z",
+          "action_taken_by": "GOV-C-002"
+        },
+        {
+          "entry_id": "H-1003-4",
+          "timestamp": "2026-09-03T14:00:00Z",
+          "user_message": "I received a message from an unknown number asking if I was 'ready to come back to work'. I'm terrified.",
+          "ai_reply": "Please do not respond to that message. I am escalating this contact attempt to our security team immediately. This will be traced. You are safe and we will protect you.",
+          "distress_score": 71,
+          "recommended_action": "Escalate contact attempt to anti-trafficking unit. Secure victim's phone communications. Increase monitoring.",
+          "action_taken": true,
+          "action_taken_at": "2026-09-03T14:30:00Z",
+          "action_taken_by": "GOV-C-002"
+        },
+        {
+          "entry_id": "H-1003-5",
+          "timestamp": "2026-09-04T09:15:00Z",
+          "user_message": "I got another message. They know I'm in Bangalore. I thought this was over.",
+          "ai_reply": "I understand how devastating this feels. You have done everything right. The trafficking unit is actively working on this contact. We may need to consider relocating you temporarily for your safety.",
+          "distress_score": 76,
+          "recommended_action": "URGENT: Report contact to anti-trafficking unit. Evaluate relocation options. Increase safe house security.",
+          "action_taken": true,
+          "action_taken_at": "2026-09-04T18:13:32.695Z",
+          "action_taken_by": "GOV-C-002"
+        }
+      ]
+    },
+    {
+      "victim_id": "V-1004",
+      "name": "Marcus Williams",
+      "age": 52,
+      "gender": "Male",
+      "location": "Chennai",
+      "crime_category": "War Crimes",
+      "current_distress_score": 71,
+      "current_risk_level": "High",
+      "case_status": "Active",
+      "assigned_counselor": "GOV-C-001",
+      "registered_date": "2026-06-01T09:00:00Z",
+      "last_interaction": "2026-09-04T08:00:00Z",
+      "case_notes": "Refugee. Has witnessed mass atrocity. Survivor guilt prominent. Making slow but steady progress. Language barrier partially addressed with translator.",
+      "history": [
+        {
+          "entry_id": "H-1004-1",
+          "timestamp": "2026-08-31T07:00:00Z",
+          "user_message": "Why did I survive when so many others didn't? I don't understand. I keep asking myself this every day.",
+          "ai_reply": "What you are experiencing is called survivor's guilt, and it is a profound and painful form of grief. Your survival is not a betrayal of those who were lost — it is something we can work through together. You are not alone in this.",
+          "distress_score": 60,
+          "recommended_action": "Continue trauma-informed counseling. Connect with survivor support group.",
+          "action_taken": true,
+          "action_taken_at": "2026-08-31T09:00:00Z",
+          "action_taken_by": "GOV-C-001"
+        },
+        {
+          "entry_id": "H-1004-2",
+          "timestamp": "2026-09-01T07:00:00Z",
+          "user_message": "I testified at the tribunal yesterday. Seeing the accused again brought everything back. I couldn't sleep.",
+          "ai_reply": "Testifying is one of the most difficult things a survivor can do, and you did it. The insomnia after such an event is a normal trauma response. Let's focus on getting you through the next 24 hours.",
+          "distress_score": 65,
+          "recommended_action": "Post-testimony support session. Prescribe sleep aid via medical officer.",
+          "action_taken": true,
+          "action_taken_at": "2026-09-01T08:00:00Z",
+          "action_taken_by": "GOV-C-001"
+        },
+        {
+          "entry_id": "H-1004-3",
+          "timestamp": "2026-09-02T08:00:00Z",
+          "user_message": "I spoke to my daughter back home today. It was hard but good. She is safe.",
+          "ai_reply": "Hearing that your daughter is safe is so important. Holding onto those connections — even across distance — is a source of strength. How did it feel to hear her voice?",
+          "distress_score": 68,
+          "recommended_action": "Facilitate regular family communication. Progress noted.",
+          "action_taken": true,
+          "action_taken_at": "2026-09-02T09:00:00Z",
+          "action_taken_by": "GOV-C-001"
+        },
+        {
+          "entry_id": "H-1004-4",
+          "timestamp": "2026-09-03T08:00:00Z",
+          "user_message": "I had a flashback at the market today. Loud sounds are very hard for me. I froze.",
+          "ai_reply": "Flashbacks can feel overwhelming, especially in public. You managed to stay safe, which shows your resilience. Let's work on a grounding technique you can use quickly when sounds trigger you.",
+          "distress_score": 70,
+          "recommended_action": "Develop sensory grounding toolkit. Consider noise-cancelling headphones provision.",
+          "action_taken": false,
+          "action_taken_at": null,
+          "action_taken_by": null
+        },
+        {
+          "entry_id": "H-1004-5",
+          "timestamp": "2026-09-04T08:00:00Z",
+          "user_message": "I learned that two of the witnesses in my case have been threatened back home. Now I am scared for my family even more.",
+          "ai_reply": "That is a legitimate and serious concern. I am contacting our international liaison team immediately to assess the situation regarding your family's safety. We take this very seriously.",
+          "distress_score": 71,
+          "recommended_action": "Alert international liaison team. Assess family safety situation. Provide victim with updated support contacts.",
+          "action_taken": false,
+          "action_taken_at": null,
+          "action_taken_by": null
+        }
+      ]
+    },
+    {
+      "victim_id": "V-1005",
+      "name": "Aisha Patel",
+      "age": 23,
+      "gender": "Female",
+      "location": "Hyderabad",
+      "crime_category": "Forced Displacement",
+      "current_distress_score": 63,
+      "current_risk_level": "Medium",
+      "case_status": "Active",
+      "assigned_counselor": "GOV-C-002",
+      "registered_date": "2026-08-01T10:00:00Z",
+      "last_interaction": "2026-09-03T16:00:00Z",
+      "case_notes": "Young victim displaced during communal violence. Family partially reunited. Making good progress in rehabilitation. Employment support initiated.",
+      "history": [
+        {
+          "entry_id": "H-1005-1",
+          "timestamp": "2026-08-31T15:00:00Z",
+          "user_message": "I miss my home so much. I know I can't go back but I still dream about it every night.",
+          "ai_reply": "Grief for your home is real and valid. You have lost something very important, and it makes sense that your mind returns to it. Can you tell me what you miss most?",
+          "distress_score": 72,
+          "recommended_action": "Continue grief counseling. Explore community integration opportunities.",
+          "action_taken": true,
+          "action_taken_at": "2026-08-31T16:00:00Z",
+          "action_taken_by": "GOV-C-002"
+        },
+        {
+          "entry_id": "H-1005-2",
+          "timestamp": "2026-09-01T16:00:00Z",
+          "user_message": "My mother called today. She is finally safe at my aunt's house. I feel a bit better.",
+          "ai_reply": "That is such relief-bringing news. Your mother's safety is such an important step. How are you feeling hearing that? It sounds like things are starting to stabilize.",
+          "distress_score": 68,
+          "recommended_action": "Note positive family development. Continue support.",
+          "action_taken": true,
+          "action_taken_at": "2026-09-01T16:30:00Z",
+          "action_taken_by": "GOV-C-002"
+        },
+        {
+          "entry_id": "H-1005-3",
+          "timestamp": "2026-09-02T16:00:00Z",
+          "user_message": "I went to the employment centre today and they have a training programme I might be eligible for.",
+          "ai_reply": "That is a wonderful and brave step. Engaging with the future like this is a sign of real resilience. What kind of training is it? Let's see how we can support your application.",
+          "distress_score": 65,
+          "recommended_action": "Facilitate employment programme application. Provide reference letter.",
+          "action_taken": true,
+          "action_taken_at": "2026-09-02T17:00:00Z",
+          "action_taken_by": "GOV-C-002"
+        },
+        {
+          "entry_id": "H-1005-4",
+          "timestamp": "2026-09-03T10:00:00Z",
+          "user_message": "I saw news footage about the violence in my old city. It triggered a lot of memories and I had a panic attack.",
+          "ai_reply": "I'm sorry you went through that. Seeing news coverage of traumatic events can be deeply triggering. We call this secondary trauma. Let's talk about ways to limit exposure to these triggers while you're still healing.",
+          "distress_score": 60,
+          "recommended_action": "Advise media exposure management. Check in within 24 hours.",
+          "action_taken": true,
+          "action_taken_at": "2026-09-03T11:00:00Z",
+          "action_taken_by": "GOV-C-002"
+        },
+        {
+          "entry_id": "H-1005-5",
+          "timestamp": "2026-09-03T16:00:00Z",
+          "user_message": "I feel a bit anxious today. I heard some of the people from my community are being harassed in the city.",
+          "ai_reply": "Your concern for your community is understandable. Can you tell me more about what you heard? I want to make sure you are safe and also assess if there is anything we need to escalate.",
+          "distress_score": 63,
+          "recommended_action": "Monitor community safety reports. Assess if collective threat requires broader action. Follow up tomorrow.",
+          "action_taken": false,
+          "action_taken_at": null,
+          "action_taken_by": null
+        }
+      ]
+    },
+    {
+      "victim_id": "V-1006",
+      "name": "David Chen",
+      "age": 37,
+      "gender": "Male",
+      "location": "Pune",
+      "crime_category": "Domestic Abuse",
+      "current_distress_score": 58,
+      "current_risk_level": "Medium",
+      "case_status": "Active",
+      "assigned_counselor": "GOV-C-002",
+      "registered_date": "2026-08-05T09:00:00Z",
+      "last_interaction": "2026-09-03T11:00:00Z",
+      "case_notes": "Male victim of domestic abuse. Slow to open up due to social stigma. Showing consistent improvement. Separation from abuser completed.",
+      "history": [
+        {
+          "entry_id": "H-1006-1",
+          "timestamp": "2026-08-31T10:00:00Z",
+          "user_message": "I feel embarrassed talking about this. People don't take men seriously when they report this kind of thing.",
+          "ai_reply": "What you are experiencing is real, and it matters. Domestic abuse affects people of all genders, and your experience is valid and important. You took a brave step by reaching out. That takes real courage.",
+          "distress_score": 70,
+          "recommended_action": "Provide male victim support resources. Address stigma in sessions.",
+          "action_taken": true,
+          "action_taken_at": "2026-08-31T11:00:00Z",
+          "action_taken_by": "GOV-C-002"
+        },
+        {
+          "entry_id": "H-1006-2",
+          "timestamp": "2026-09-01T10:00:00Z",
+          "user_message": "I filed the restraining order today. The lawyer was very helpful.",
+          "ai_reply": "That is a significant and positive step for your safety and your future. Filing a restraining order takes real determination. How are you feeling after going through the process?",
+          "distress_score": 65,
+          "recommended_action": "Document legal progress. Ensure victim has copy of restraining order. Monitor compliance.",
+          "action_taken": true,
+          "action_taken_at": "2026-09-01T11:00:00Z",
+          "action_taken_by": "GOV-C-002"
+        },
+        {
+          "entry_id": "H-1006-3",
+          "timestamp": "2026-09-02T10:00:00Z",
+          "user_message": "I slept through the whole night for the first time in months. It felt strange but good.",
+          "ai_reply": "That is genuinely wonderful news. Restorative sleep is so important for healing and it is a sign your body is starting to feel safer. I hope tonight brings another full night of rest.",
+          "distress_score": 60,
+          "recommended_action": "Positive milestone noted. Continue current support plan.",
+          "action_taken": true,
+          "action_taken_at": "2026-09-02T11:00:00Z",
+          "action_taken_by": "GOV-C-002"
+        },
+        {
+          "entry_id": "H-1006-4",
+          "timestamp": "2026-09-02T20:00:00Z",
+          "user_message": "She violated the restraining order by calling me from a different number today.",
+          "ai_reply": "This is a violation of the court order and it needs to be reported to police immediately. Please save the number and call record. I am flagging this to your case officer right now.",
+          "distress_score": 55,
+          "recommended_action": "Report restraining order violation to police. Advise victim to document all contact attempts.",
+          "action_taken": true,
+          "action_taken_at": "2026-09-02T20:30:00Z",
+          "action_taken_by": "GOV-C-002"
+        },
+        {
+          "entry_id": "H-1006-5",
+          "timestamp": "2026-09-03T11:00:00Z",
+          "user_message": "The police visited her today about the violation. I'm nervous about her reaction to that.",
+          "ai_reply": "Your nervousness is understandable. The police visit is an important step in enforcing your legal protection. Let's talk about what to do if there is any further contact or escalation.",
+          "distress_score": 58,
+          "recommended_action": "Review safety plan. Ensure police have updated contact details. Follow up in 48 hours.",
+          "action_taken": false,
+          "action_taken_at": null,
+          "action_taken_by": null
+        }
+      ],
+      "notes_updated_at": "2026-09-04T18:07:16.028Z",
+      "notes_updated_by": "GOV-C-001"
+    },
+    {
+      "victim_id": "V-1007",
+      "name": "Fatima Nkosi",
+      "age": 29,
+      "gender": "Female",
+      "location": "Kolkata",
+      "crime_category": "Sexual Assault",
+      "current_distress_score": 45,
+      "current_risk_level": "Medium",
+      "case_status": "Active",
+      "assigned_counselor": "GOV-C-001",
+      "registered_date": "2026-07-20T10:00:00Z",
+      "last_interaction": "2026-09-03T13:00:00Z",
+      "case_notes": "Case is 6 weeks post-incident. Trial preparation underway. Victim showing resilience with therapeutic support. Anxiety about court appearance is main concern.",
+      "history": [
+        {
+          "entry_id": "H-1007-1",
+          "timestamp": "2026-08-31T13:00:00Z",
+          "user_message": "I'm anxious about having to testify. I don't want to see him in the courtroom.",
+          "ai_reply": "Your anxiety about this is completely understandable. There are legal provisions that can help protect you during testimony, including screens and video links. Would you like me to explain these options?",
+          "distress_score": 60,
+          "recommended_action": "Brief on in-court protection measures. Connect with victim advocacy lawyer.",
+          "action_taken": true,
+          "action_taken_at": "2026-08-31T14:00:00Z",
+          "action_taken_by": "GOV-C-001"
+        },
+        {
+          "entry_id": "H-1007-2",
+          "timestamp": "2026-09-01T13:00:00Z",
+          "user_message": "I spoke with the victim advocate lawyer today. She was very kind and explained my rights clearly.",
+          "ai_reply": "I am so glad that meeting went well. Having strong legal support around you makes a real difference. How are you feeling about the process after that conversation?",
+          "distress_score": 55,
+          "recommended_action": "Coordinate with victim advocate. Update case notes with legal preparation status.",
+          "action_taken": true,
+          "action_taken_at": "2026-09-01T14:00:00Z",
+          "action_taken_by": "GOV-C-001"
+        },
+        {
+          "entry_id": "H-1007-3",
+          "timestamp": "2026-09-02T13:00:00Z",
+          "user_message": "I went for a walk alone today in the park near my home. First time in two months.",
+          "ai_reply": "That is a truly meaningful milestone. Reclaiming your space and sense of freedom is an important part of your healing journey. How did it feel?",
+          "distress_score": 50,
+          "recommended_action": "Celebrate milestone. Encourage gradual resumption of normal activities.",
+          "action_taken": true,
+          "action_taken_at": "2026-09-02T14:00:00Z",
+          "action_taken_by": "GOV-C-001"
+        },
+        {
+          "entry_id": "H-1007-4",
+          "timestamp": "2026-09-02T20:00:00Z",
+          "user_message": "Friends of the accused contacted me on social media asking me to drop the case. It scared me.",
+          "ai_reply": "This is witness tampering and it is a serious crime. Please do not respond, screenshot all messages, and report them to police. I am alerting your case officer immediately.",
+          "distress_score": 44,
+          "recommended_action": "Document social media harassment. Report to police. Brief social media platforms for content removal.",
+          "action_taken": true,
+          "action_taken_at": "2026-09-02T20:45:00Z",
+          "action_taken_by": "GOV-C-001"
+        },
+        {
+          "entry_id": "H-1007-5",
+          "timestamp": "2026-09-03T13:00:00Z",
+          "user_message": "The social media accounts were removed. I feel a bit more at ease today.",
+          "ai_reply": "That is a positive resolution. The system working in your favour is important for your sense of safety. Your resilience throughout this process has been extraordinary.",
+          "distress_score": 45,
+          "recommended_action": "Continue trial preparation support. Monitor for further harassment attempts.",
+          "action_taken": false,
+          "action_taken_at": null,
+          "action_taken_by": null
+        }
+      ]
+    },
+    {
+      "victim_id": "V-1008",
+      "name": "Robert Kumar",
+      "age": 45,
+      "gender": "Male",
+      "location": "Jaipur",
+      "crime_category": "Witness Intimidation",
+      "current_distress_score": 38,
+      "current_risk_level": "Low",
+      "case_status": "Monitoring",
+      "assigned_counselor": "GOV-C-002",
+      "registered_date": "2026-07-01T09:00:00Z",
+      "last_interaction": "2026-09-02T10:00:00Z",
+      "case_notes": "Victim has successfully testified. Threat level has reduced significantly. In recovery phase. Bi-weekly check-ins sufficient.",
+      "history": [
+        {
+          "entry_id": "H-1008-1",
+          "timestamp": "2026-08-31T10:00:00Z",
+          "user_message": "I testified last week. It went as well as I could have hoped. I feel lighter.",
+          "ai_reply": "Completing your testimony is a major milestone. Your courage in seeing this through will make a real difference. How are you managing day-to-day now?",
+          "distress_score": 55,
+          "recommended_action": "Post-testimony debriefing. Assess ongoing threat level.",
+          "action_taken": true,
+          "action_taken_at": "2026-08-31T11:00:00Z",
+          "action_taken_by": "GOV-C-002"
+        },
+        {
+          "entry_id": "H-1008-2",
+          "timestamp": "2026-09-01T10:00:00Z",
+          "user_message": "I'm starting to return to a normal routine. Work, family. It feels almost normal again.",
+          "ai_reply": "That is genuinely wonderful to hear. Returning to routine is one of the most important aspects of recovery. The 'almost normal' feeling is real progress.",
+          "distress_score": 50,
+          "recommended_action": "Reduce check-in frequency to bi-weekly. Update case status to Monitoring.",
+          "action_taken": true,
+          "action_taken_at": "2026-09-01T11:00:00Z",
+          "action_taken_by": "GOV-C-002"
+        },
+        {
+          "entry_id": "H-1008-3",
+          "timestamp": "2026-09-01T16:00:00Z",
+          "user_message": "I attended my son's school event today. First time I went to something like that in months.",
+          "ai_reply": "That is a beautiful milestone. Being present for your son in that way is something to feel genuinely proud of. These moments of reconnection matter.",
+          "distress_score": 45,
+          "recommended_action": "Note positive social reintegration. Encourage continued family engagement.",
+          "action_taken": true,
+          "action_taken_at": "2026-09-01T17:00:00Z",
+          "action_taken_by": "GOV-C-002"
+        },
+        {
+          "entry_id": "H-1008-4",
+          "timestamp": "2026-09-02T08:00:00Z",
+          "user_message": "I had a mild panic when I saw a car that looked like the ones that used to follow me. But it passed quickly.",
+          "ai_reply": "The fact that it passed quickly is real progress. Your nervous system is learning that you are safe. These echoes of past fear will fade as you continue to have safe experiences.",
+          "distress_score": 40,
+          "recommended_action": "Document trigger incident. Confirm threat situation is resolved with security team.",
+          "action_taken": true,
+          "action_taken_at": "2026-09-02T09:00:00Z",
+          "action_taken_by": "GOV-C-002"
+        },
+        {
+          "entry_id": "H-1008-5",
+          "timestamp": "2026-09-02T10:00:00Z",
+          "user_message": "Overall I feel I am getting better. Thank you for all the support.",
+          "ai_reply": "It is truly wonderful to see how far you have come. Your resilience is remarkable. We will continue to be here for you through the monitoring phase.",
+          "distress_score": 38,
+          "recommended_action": "Maintain bi-weekly monitoring. Consider case closure evaluation in 4 weeks.",
+          "action_taken": false,
+          "action_taken_at": null,
+          "action_taken_by": null
+        }
+      ]
+    },
+    {
+      "victim_id": "V-1009",
+      "name": "Maria Santos",
+      "age": 31,
+      "gender": "Female",
+      "location": "Ahmedabad",
+      "crime_category": "Child Abuse",
+      "current_distress_score": 29,
+      "current_risk_level": "Low",
+      "case_status": "Monitoring",
+      "assigned_counselor": "GOV-C-001",
+      "registered_date": "2026-06-15T10:00:00Z",
+      "last_interaction": "2026-09-01T14:00:00Z",
+      "case_notes": "Survivor is mother whose child was abused. Child now in safe custody. Mother making excellent recovery. Case nearing monitoring close.",
+      "history": [
+        {
+          "entry_id": "H-1009-1",
+          "timestamp": "2026-08-31T14:00:00Z",
+          "user_message": "I visited my daughter at the care facility today. She smiled at me and it broke my heart in the best way.",
+          "ai_reply": "That image — your daughter's smile — is something to hold onto. The bond between you remains strong despite everything. How are you feeling after seeing her?",
+          "distress_score": 45,
+          "recommended_action": "Continue supervised family visits. Monitor emotional response.",
+          "action_taken": true,
+          "action_taken_at": "2026-08-31T15:00:00Z",
+          "action_taken_by": "GOV-C-001"
+        },
+        {
+          "entry_id": "H-1009-2",
+          "timestamp": "2026-09-01T10:00:00Z",
+          "user_message": "The court granted me additional visiting hours next week. I'm so relieved.",
+          "ai_reply": "That is truly wonderful progress. The extended time with your daughter is something to look forward to. Your commitment to her healing and your own has been inspiring.",
+          "distress_score": 40,
+          "recommended_action": "Document court order. Coordinate visit logistics with care facility.",
+          "action_taken": true,
+          "action_taken_at": "2026-09-01T11:00:00Z",
+          "action_taken_by": "GOV-C-001"
+        },
+        {
+          "entry_id": "H-1009-3",
+          "timestamp": "2026-09-01T12:00:00Z",
+          "user_message": "I joined a support group for parents in my situation. It helped to not feel so alone.",
+          "ai_reply": "Connecting with others who understand your experience is one of the most powerful parts of healing. I am so glad you found that community. How did the group make you feel?",
+          "distress_score": 35,
+          "recommended_action": "Encourage continued support group participation. Note social reintegration milestone.",
+          "action_taken": true,
+          "action_taken_at": "2026-09-01T13:00:00Z",
+          "action_taken_by": "GOV-C-001"
+        },
+        {
+          "entry_id": "H-1009-4",
+          "timestamp": "2026-09-01T13:30:00Z",
+          "user_message": "I've been sleeping better. I feel like I can see a future now.",
+          "ai_reply": "Being able to see a future — that is one of the most important signs of healing. It means hope is returning. What does that future look like to you?",
+          "distress_score": 32,
+          "recommended_action": "Positive progress. Evaluate case closure in 3 weeks.",
+          "action_taken": true,
+          "action_taken_at": "2026-09-01T14:00:00Z",
+          "action_taken_by": "GOV-C-001"
+        },
+        {
+          "entry_id": "H-1009-5",
+          "timestamp": "2026-09-01T14:00:00Z",
+          "user_message": "I feel much better. Thank you for being there every step of the way.",
+          "ai_reply": "This is your achievement. You have shown incredible strength, love, and perseverance. We are always here. Please reach out any time.",
+          "distress_score": 29,
+          "recommended_action": "Monthly check-in plan. Prepare case closure documentation.",
+          "action_taken": false,
+          "action_taken_at": null,
+          "action_taken_by": null
+        }
+      ]
+    },
+    {
+      "victim_id": "V-1010",
+      "name": "Alex Thompson",
+      "age": 39,
+      "gender": "Non-binary",
+      "location": "Lucknow",
+      "crime_category": "War Crimes",
+      "current_distress_score": 21,
+      "current_risk_level": "Low",
+      "case_status": "Monitoring",
+      "assigned_counselor": "GOV-C-002",
+      "registered_date": "2026-05-10T09:00:00Z",
+      "last_interaction": "2026-09-01T09:00:00Z",
+      "case_notes": "Journalist who witnessed and documented war crimes. PTSD was severe at intake. Now in advanced recovery. Volunteer work with refugee org is aiding recovery.",
+      "history": [
+        {
+          "entry_id": "H-1010-1",
+          "timestamp": "2026-08-31T09:00:00Z",
+          "user_message": "I started the volunteer work at the refugee centre this week. It feels meaningful.",
+          "ai_reply": "Giving back in this way is a profound part of your recovery journey. It can also help you process your own experience by seeing resilience in others. How have the volunteers and staff been?",
+          "distress_score": 35,
+          "recommended_action": "Support volunteering initiative. Monitor for vicarious trauma.",
+          "action_taken": true,
+          "action_taken_at": "2026-08-31T10:00:00Z",
+          "action_taken_by": "GOV-C-002"
+        },
+        {
+          "entry_id": "H-1010-2",
+          "timestamp": "2026-09-01T07:00:00Z",
+          "user_message": "A publisher reached out about my account of what I witnessed. I'm considering writing about it.",
+          "ai_reply": "Writing about your experience can be a powerful form of healing and advocacy. It is also an important decision that deserves careful consideration. How does the idea make you feel?",
+          "distress_score": 30,
+          "recommended_action": "Support decision-making process. Ensure victim has psychologist consultation before committing.",
+          "action_taken": true,
+          "action_taken_at": "2026-09-01T08:00:00Z",
+          "action_taken_by": "GOV-C-002"
+        },
+        {
+          "entry_id": "H-1010-3",
+          "timestamp": "2026-09-01T08:00:00Z",
+          "user_message": "I went for a run this morning. 5km. I haven't done that in over a year.",
+          "ai_reply": "Physical recovery often mirrors emotional recovery. Running 5km is not just about fitness — it is your body reclaiming its strength and freedom. That is remarkable.",
+          "distress_score": 28,
+          "recommended_action": "Celebrate recovery milestone. Continue current support plan.",
+          "action_taken": true,
+          "action_taken_at": "2026-09-01T08:30:00Z",
+          "action_taken_by": "GOV-C-002"
+        },
+        {
+          "entry_id": "H-1010-4",
+          "timestamp": "2026-09-01T08:30:00Z",
+          "user_message": "I feel genuinely okay today. Not just 'managing' — actually okay.",
+          "ai_reply": "That distinction — from managing to actually okay — is everything. Your progress has been extraordinary. We are so proud of how far you have come.",
+          "distress_score": 24,
+          "recommended_action": "Document significant recovery milestone. Begin case closure evaluation.",
+          "action_taken": true,
+          "action_taken_at": "2026-09-01T09:00:00Z",
+          "action_taken_by": "GOV-C-002"
+        },
+        {
+          "entry_id": "H-1010-5",
+          "timestamp": "2026-09-01T09:00:00Z",
+          "user_message": "Thank you. Truly. I'm ready to start thinking about what comes next.",
+          "ai_reply": "We are right here with you for every next step. The future is yours. Thank you for trusting us with your recovery.",
+          "distress_score": 21,
+          "recommended_action": "Initiate formal case closure process. Plan graduation from active support to alumni network.",
+          "action_taken": false,
+          "action_taken_at": null,
+          "action_taken_by": null
+        }
+      ]
+    }
+  ]
+}

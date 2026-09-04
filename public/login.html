@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login — Victim Care Admin Portal</title>
+  <meta name="description" content="Government Counselor secure login for the AI-Powered Victim Care monitoring system." />
+  <meta name="robots" content="noindex, nofollow" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/login.css" />
+</head>
+<body>
+
+<div class="login-page">
+
+  <!-- ── Left Branding Panel ──────────────────────────────── -->
+  <div class="login-left">
+    <div class="login-brand">
+      <div class="login-brand-icon">
+        <i class="fa-solid fa-shield-halved"></i>
+      </div>
+      <div>
+        <div class="login-brand-name">VictimCare AI</div>
+        <div class="login-brand-sub">Ministry of Justice · Secure Portal</div>
+      </div>
+    </div>
+
+    <div class="login-tagline">
+      <h2>Protecting the Vulnerable, Empowering the Brave</h2>
+      <p>
+        An AI-powered mental health monitoring system helping government
+        counselors provide timely, data-driven care to survivors of atrocities.
+      </p>
+    </div>
+
+    <div class="login-stats">
+      <div class="login-stat">
+        <div class="login-stat-num">24/7</div>
+        <div class="login-stat-lbl">Monitoring</div>
+      </div>
+      <div class="login-stat">
+        <div class="login-stat-num">AI</div>
+        <div class="login-stat-lbl">Powered</div>
+      </div>
+      <div class="login-stat">
+        <div class="login-stat-num">100%</div>
+        <div class="login-stat-lbl">Confidential</div>
+      </div>
+    </div>
+
+    <div class="login-security-tag">
+      <i class="fa-solid fa-lock"></i>
+      Government Grade Security — Authorised Personnel Only
+    </div>
+  </div>
+
+  <!-- ── Right Login Form Panel ───────────────────────────── -->
+  <div class="login-right">
+    <div class="login-form-wrap">
+
+      <div class="login-form-header">
+        <h1>Counselor Sign In</h1>
+        <p>Enter your government-issued credentials to access the dashboard.</p>
+      </div>
+
+      <!-- Error Banner -->
+      <div class="login-error" id="login-error" role="alert" aria-live="assertive">
+        <i class="fa-solid fa-circle-exclamation"></i>
+        <span id="login-error-msg">Invalid credentials.</span>
+      </div>
+
+      <!-- Login Form -->
+      <form id="login-form" novalidate autocomplete="off">
+
+        <div class="form-group">
+          <label class="form-label" for="counselor-id">Counselor ID</label>
+          <div class="form-input-wrap">
+            <i class="fa-solid fa-id-badge form-input-icon"></i>
+            <input
+              type="text"
+              id="counselor-id"
+              class="form-input"
+              placeholder="e.g. GOV-C-001"
+              autocomplete="username"
+              spellcheck="false"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="password">Password</label>
+          <div class="form-input-wrap">
+            <i class="fa-solid fa-lock form-input-icon"></i>
+            <input
+              type="password"
+              id="password"
+              class="form-input"
+              placeholder="Enter your password"
+              autocomplete="current-password"
+              required
+            />
+            <button type="button" class="btn-toggle-pass" id="toggle-password" aria-label="Toggle password visibility">
+              <i class="fa-solid fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-login" id="login-btn">
+          <span id="btn-text"><i class="fa-solid fa-right-to-bracket"></i> &nbsp; Sign In Securely</span>
+          <span id="btn-spinner" class="btn-spinner">
+            <span class="btn-spinner-ring"></span>
+            Authenticating...
+          </span>
+        </button>
+
+      </form>
+
+      <!-- MVP Demo Credentials Hint -->
+      <div class="login-hint" role="complementary" aria-label="Demo credentials">
+        <div class="login-hint-title">
+          <i class="fa-solid fa-flask"></i> MVP Demo Credentials
+        </div>
+        <div class="login-hint-row">
+          <span class="login-hint-label">ID:</span>
+          <span>GOV-C-001</span>
+          &nbsp;|&nbsp;
+          <span class="login-hint-label">Pass:</span>
+          <span>secure@123</span>
+        </div>
+        <div class="login-hint-row">
+          <span class="login-hint-label">ID:</span>
+          <span>GOV-C-002</span>
+          &nbsp;|&nbsp;
+          <span class="login-hint-label">Pass:</span>
+          <span>care@456</span>
+        </div>
+      </div>
+
+      <div class="login-footer">
+        <i class="fa-solid fa-lock"></i>
+        Protected Government System &mdash; Unauthorised access is a criminal offence.
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Auth Script (no type=module needed — no imports from auth.js side) -->
+<script src="/js/auth.js" defer></script>
+
+</body>
+</html>
