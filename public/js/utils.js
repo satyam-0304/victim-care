@@ -305,25 +305,45 @@ export function initSidebar() {
 
   const isDesktop = () => window.innerWidth >= 992;
 
+  // ── Icon swap helper ☰ ↔ ✕ ────────────────────────────
+  function updateToggleIcon() {
+    const icon = document.getElementById('topbar-toggle-icon');
+    if (!icon || !sidebar) return;
+    const isCollapsed = sidebar.classList.contains('collapsed');
+    const isOpen      = sidebar.classList.contains('open');
+    // Desktop: collapsed → ✕ | expanded → ☰
+    // Mobile:  open → ✕     | closed   → ☰
+    const showX = isDesktop() ? isCollapsed : isOpen;
+    icon.className = showX
+      ? 'fa-solid fa-xmark topbar-icon-swap'
+      : 'fa-solid fa-bars topbar-icon-swap';
+  }
+
   function openMobile() {
     sidebar.classList.add('open');
     backdrop.classList.add('show');
     document.body.style.overflow = 'hidden';
+    updateToggleIcon();
   }
   function closeMobile() {
     sidebar.classList.remove('open');
     backdrop.classList.remove('show');
     document.body.style.overflow = '';
+    updateToggleIcon();
   }
   function toggleDesktop() {
     sidebar.classList.toggle('collapsed');
     localStorage.setItem('sidebar_collapsed', sidebar.classList.contains('collapsed'));
+    updateToggleIcon();
   }
 
   // Restore desktop collapse state
   if (isDesktop() && localStorage.getItem('sidebar_collapsed') === 'true') {
     sidebar.classList.add('collapsed');
   }
+
+  // Set correct icon on page load
+  updateToggleIcon();
 
   toggleBtns.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -340,8 +360,10 @@ export function initSidebar() {
       closeMobile();
       document.body.style.overflow = '';
     }
+    updateToggleIcon();
   });
 }
+
 
 /**
  * Highlights the active sidebar link based on current pathname.

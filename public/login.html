@@ -24,7 +24,7 @@
 <div class="login-page">
 
   <!-- ── Left Branding Panel ──────────────────────────────── -->
-  <div class="login-left">
+  <aside class="login-left" aria-label="Branding panel">
     <div class="login-brand">
       <div class="login-brand-icon">
         <i class="fa-solid fa-shield-halved"></i>
@@ -62,69 +62,30 @@
       <i class="fa-solid fa-lock"></i>
       Government Grade Security — Authorised Personnel Only
     </div>
-  </div>
+  </aside>
 
-  <!-- ── Right Login Form Panel ───────────────────────────── -->
-  <div class="login-right">
-    <div class="login-form-wrap">
+  <!-- ── Right CTA Panel ─────────────────────────────────── -->
+  <main class="login-right" aria-label="Access portal">
+    <div class="login-cta-wrap">
 
-      <div class="login-form-header">
-        <h1>Counselor Sign In</h1>
-        <p>Enter your government-issued credentials to access the dashboard.</p>
+      <!-- Hero text on right panel -->
+      <div class="login-cta-header">
+        <div class="login-cta-badge">
+          <i class="fa-solid fa-circle-check"></i> Secure Government Portal
+        </div>
+        <h1 class="login-cta-title">Your Cases.<br>Your Mission.<br>All in One Place.</h1>
+        <p class="login-cta-sub">
+          Access real-time victim care analytics, AI-powered risk alerts,
+          and case management tools built for government counselors.
+        </p>
       </div>
 
-      <!-- Error Banner -->
-      <div class="login-error" id="login-error" role="alert" aria-live="assertive">
-        <i class="fa-solid fa-circle-exclamation"></i>
-        <span id="login-error-msg">Invalid credentials.</span>
-      </div>
-
-      <!-- Login Form -->
-      <form id="login-form" novalidate autocomplete="off">
-
-        <div class="form-group">
-          <label class="form-label" for="counselor-id">Counselor ID</label>
-          <div class="form-input-wrap">
-            <i class="fa-solid fa-id-badge form-input-icon"></i>
-            <input
-              type="text"
-              id="counselor-id"
-              class="form-input"
-              placeholder="e.g. GOV-C-001"
-              autocomplete="username"
-              spellcheck="false"
-              required
-            />
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="password">Password</label>
-          <div class="form-input-wrap">
-            <i class="fa-solid fa-lock form-input-icon"></i>
-            <input
-              type="password"
-              id="password"
-              class="form-input"
-              placeholder="Enter your password"
-              autocomplete="current-password"
-              required
-            />
-            <button type="button" class="btn-toggle-pass" id="toggle-password" aria-label="Toggle password visibility">
-              <i class="fa-solid fa-eye"></i>
-            </button>
-          </div>
-        </div>
-
-        <button type="submit" class="btn-login" id="login-btn">
-          <span id="btn-text"><i class="fa-solid fa-right-to-bracket"></i> &nbsp; Sign In Securely</span>
-          <span id="btn-spinner" class="btn-spinner">
-            <span class="btn-spinner-ring"></span>
-            Authenticating...
-          </span>
-        </button>
-
-      </form>
+      <!-- CTA Button -->
+      <button class="btn-access-portal" id="btn-open-modal" aria-haspopup="dialog" aria-controls="auth-modal">
+        <i class="fa-solid fa-right-to-bracket"></i>
+        Access Portal
+        <i class="fa-solid fa-arrow-right btn-arrow"></i>
+      </button>
 
       <!-- MVP Demo Credentials Hint -->
       <div class="login-hint" role="complementary" aria-label="Demo credentials">
@@ -147,16 +108,230 @@
         </div>
       </div>
 
+      <!-- Footer -->
       <div class="login-footer">
         <i class="fa-solid fa-lock"></i>
         Protected Government System &mdash; Unauthorised access is a criminal offence.
       </div>
 
     </div>
-  </div>
+  </main>
+
 </div>
 
-<!-- Auth Script (no type=module needed — no imports from auth.js side) -->
+<!-- ══════════════════════════════════════════════════════
+     Modal Overlay — Auth Panel
+     ══════════════════════════════════════════════════════ -->
+<div class="auth-modal-backdrop" id="auth-modal-backdrop" role="presentation" aria-hidden="true"></div>
+
+<div
+  class="auth-modal"
+  id="auth-modal"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="modal-title"
+  aria-hidden="true"
+>
+  <!-- Close Button -->
+  <button class="auth-modal-close" id="btn-close-modal" aria-label="Close authentication panel">
+    <i class="fa-solid fa-xmark"></i>
+  </button>
+
+  <!-- Modal Header -->
+  <div class="auth-modal-header">
+    <div class="auth-modal-logo">
+      <i class="fa-solid fa-shield-halved"></i>
+    </div>
+    <h2 class="auth-modal-title" id="modal-title">VictimCare AI</h2>
+    <p class="auth-modal-subtitle">Ministry of Justice · Secure Portal</p>
+  </div>
+
+  <!-- Tab Switcher -->
+  <div class="auth-tabs" role="tablist" aria-label="Authentication options">
+    <button
+      class="auth-tab active"
+      id="tab-signin"
+      role="tab"
+      aria-selected="true"
+      aria-controls="panel-signin"
+      data-tab="signin"
+    >Sign In</button>
+    <button
+      class="auth-tab"
+      id="tab-signup"
+      role="tab"
+      aria-selected="false"
+      aria-controls="panel-signup"
+      data-tab="signup"
+    >Sign Up</button>
+    <div class="auth-tab-indicator" id="tab-indicator" aria-hidden="true"></div>
+  </div>
+
+  <!-- ── Sign In Panel ─────────────────────────────── -->
+  <section
+    class="auth-panel active"
+    id="panel-signin"
+    role="tabpanel"
+    aria-labelledby="tab-signin"
+  >
+    <!-- Error Banner -->
+    <div class="login-error" id="login-error" role="alert" aria-live="assertive">
+      <i class="fa-solid fa-circle-exclamation"></i>
+      <span id="login-error-msg">Invalid credentials.</span>
+    </div>
+
+    <form id="login-form" novalidate autocomplete="off">
+
+      <!-- Counselor ID — floating label -->
+      <div class="form-group float-group">
+        <div class="form-input-wrap">
+          <i class="fa-solid fa-id-badge form-input-icon"></i>
+          <input
+            type="text"
+            id="counselor-id"
+            class="form-input"
+            placeholder=" "
+            autocomplete="username"
+            spellcheck="false"
+            required
+          />
+          <label class="form-label float-label" for="counselor-id">Counselor ID</label>
+          <i class="fa-solid fa-check form-input-check" id="check-counselor-id" aria-hidden="true"></i>
+        </div>
+      </div>
+
+      <!-- Password — floating label -->
+      <div class="form-group float-group">
+        <div class="form-input-wrap">
+          <i class="fa-solid fa-lock form-input-icon"></i>
+          <input
+            type="password"
+            id="password"
+            class="form-input"
+            placeholder=" "
+            autocomplete="current-password"
+            required
+          />
+          <label class="form-label float-label" for="password">Password</label>
+          <button type="button" class="btn-toggle-pass" id="toggle-password" aria-label="Toggle password visibility">
+            <i class="fa-solid fa-eye"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Remember Me + Need Help -->
+      <div class="form-extras">
+        <label class="remember-me" for="remember-me">
+          <input type="checkbox" id="remember-me" />
+          <span class="remember-me-box" aria-hidden="true"></span>
+          Remember my ID
+        </label>
+        <a href="#" class="need-help-link" id="need-help-link" aria-label="Need help signing in">
+          <i class="fa-solid fa-circle-question"></i> Need Help?
+        </a>
+      </div>
+
+      <button type="submit" class="btn-login" id="login-btn">
+        <span id="btn-text"><i class="fa-solid fa-right-to-bracket"></i> &nbsp; Sign In Securely</span>
+        <span id="btn-spinner" class="btn-spinner">
+          <span class="btn-spinner-ring"></span>
+          Authenticating...
+        </span>
+      </button>
+
+    </form>
+
+    <!-- Need Help Tooltip -->
+    <div class="help-tooltip" id="help-tooltip" role="tooltip" aria-hidden="true">
+      <i class="fa-solid fa-headset"></i>
+      <div>
+        <strong>IT Support</strong><br>
+        Contact your department's IT helpdesk or email<br>
+        <a href="mailto:support@victimcare.gov.in">support@victimcare.gov.in</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Sign Up Panel ─────────────────────────────── -->
+  <section
+    class="auth-panel"
+    id="panel-signup"
+    role="tabpanel"
+    aria-labelledby="tab-signup"
+    aria-hidden="true"
+  >
+    <!-- Success / gated message (shown after submit) -->
+    <div class="signup-success" id="signup-success" aria-live="polite" hidden>
+      <i class="fa-solid fa-clock-rotate-left"></i>
+      <strong>Registration Submitted</strong>
+      <p>Your request is awaiting admin approval. You'll receive a confirmation email within 24–48 hours.</p>
+    </div>
+
+    <form id="signup-form" novalidate autocomplete="off">
+
+      <!-- Full Name -->
+      <div class="form-group float-group">
+        <div class="form-input-wrap">
+          <i class="fa-solid fa-user form-input-icon"></i>
+          <input type="text" id="signup-name" class="form-input" placeholder=" " required />
+          <label class="form-label float-label" for="signup-name">Full Name</label>
+        </div>
+      </div>
+
+      <!-- Counselor ID -->
+      <div class="form-group float-group">
+        <div class="form-input-wrap">
+          <i class="fa-solid fa-id-badge form-input-icon"></i>
+          <input type="text" id="signup-id" class="form-input" placeholder=" " spellcheck="false" required />
+          <label class="form-label float-label" for="signup-id">Requested Counselor ID</label>
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="form-group float-group">
+        <div class="form-input-wrap">
+          <i class="fa-solid fa-envelope form-input-icon"></i>
+          <input type="email" id="signup-email" class="form-input" placeholder=" " required />
+          <label class="form-label float-label" for="signup-email">Government Email</label>
+        </div>
+      </div>
+
+      <!-- Password -->
+      <div class="form-group float-group">
+        <div class="form-input-wrap">
+          <i class="fa-solid fa-lock form-input-icon"></i>
+          <input type="password" id="signup-password" class="form-input" placeholder=" " required />
+          <label class="form-label float-label" for="signup-password">Password</label>
+          <button type="button" class="btn-toggle-pass" id="toggle-signup-password" aria-label="Toggle password visibility">
+            <i class="fa-solid fa-eye"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Confirm Password -->
+      <div class="form-group float-group">
+        <div class="form-input-wrap">
+          <i class="fa-solid fa-lock-open form-input-icon"></i>
+          <input type="password" id="signup-confirm" class="form-input" placeholder=" " required />
+          <label class="form-label float-label" for="signup-confirm">Confirm Password</label>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-login btn-signup-submit" id="signup-btn">
+        <span><i class="fa-solid fa-user-plus"></i> &nbsp; Request Access</span>
+      </button>
+
+    </form>
+
+    <p class="signup-note">
+      <i class="fa-solid fa-shield-halved"></i>
+      Registration is subject to government ID verification and departmental approval.
+    </p>
+  </section>
+
+</div>
+
+<!-- Auth Script -->
 <script src="/js/auth.js" defer></script>
 
 </body>

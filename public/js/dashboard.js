@@ -10,6 +10,7 @@ import {
   requireAuth, renderUserInfo, initSidebar, setActiveSidebarLink,
   apiFetch, getRiskBadgeHTML, getCrimeBadgeHTML, getRiskClass,
   getScoreColor, formatTimeAgo, formatDateTime, showToast, escapeHtml,
+  logout,
 } from './utils.js';
 
 // ── State ──────────────────────────────────────────────────
@@ -107,8 +108,30 @@ function setKPI(id, value, sub) {
   if (!card) return;
   const valEl = card.querySelector('.kpi-value');
   const subEl = card.querySelector('.kpi-sub');
-  if (valEl) valEl.textContent = value;
   if (subEl) subEl.textContent = sub;
+  if (!valEl) return;
+
+  // Count-up animation from 0 → value
+  const start    = 0;
+  const end      = Number(value) || 0;
+  const duration = 600; // ms
+  const startTs  = performance.now();
+
+  valEl.classList.remove('counting');
+  void valEl.offsetWidth; // reflow to restart animation
+  valEl.classList.add('counting');
+
+  function step(ts) {
+    const elapsed  = ts - startTs;
+    const progress = Math.min(elapsed / duration, 1);
+    // Ease-out curve
+    const eased = 1 - Math.pow(1 - progress, 3);
+    valEl.textContent = Math.round(start + (end - start) * eased);
+    if (progress < 1) requestAnimationFrame(step);
+    else valEl.textContent = end; // ensure exact final value
+  }
+
+  requestAnimationFrame(step);
 }
 
 // ══════════════════════════════════════════════════════
@@ -167,7 +190,8 @@ function buildRow(v, idx) {
   const isCritical  = v.current_risk_level === 'Critical';
 
   return `
-    <tr class="${isCritical ? 'row-critical' : ''}" data-id="${escapeHtml(v.victim_id)}">
+    <tr class="${isCritical ? 'row-critical' : ''} row-risk-${v.current_risk_level.toLowerCase()}"
+        data-id="${escapeHtml(v.victim_id)}">
       <td>
         <a href="/victim-profile.html?id=${encodeURIComponent(v.victim_id)}"
            class="victim-id-link">${escapeHtml(v.victim_id)}</a>
@@ -528,7 +552,8 @@ function initEventListeners() {
   }
 
   // Logout button
-  document.getElementById('logout-btn')?.addEventListener('click', () => {
-    if (confirm('Are you sure you want to log out?')) window.handleLogout?.();
+  document.getElementById('logout-btn')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (confirm('Are you sure you want to log out?')) logout();
   });
 }

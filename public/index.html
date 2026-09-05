@@ -70,8 +70,7 @@
         <span class="nav-item-label">Settings</span>
       </a>
 
-      <a href="#" class="nav-item" data-tooltip="Logout" id="logout-btn"
-         onclick="event.preventDefault();">
+      <a href="#" class="nav-item" data-tooltip="Logout" id="logout-btn">
         <i class="fa-solid fa-right-from-bracket nav-item-icon" style="color: #FDA4AF;"></i>
         <span class="nav-item-label" style="color: #FDA4AF;">Logout</span>
       </a>
@@ -100,11 +99,11 @@
     <!-- Top Bar -->
     <header class="topbar" role="banner">
       <button class="topbar-toggle" id="topbar-toggle" aria-label="Toggle sidebar" title="Toggle sidebar">
-        <i class="fa-solid fa-bars"></i>
+        <i class="fa-solid fa-bars" id="topbar-toggle-icon"></i>
       </button>
 
       <div class="topbar-breadcrumb">
-        <div class="topbar-page-title">Triage Dashboard</div>
+        <div class="topbar-page-title">Overview</div>
         <div class="topbar-page-sub">AI-Powered Mental Health Monitoring</div>
       </div>
 
@@ -140,7 +139,7 @@
       <!-- ── KPI Cards ──────────────────────────────────────── -->
       <section class="kpi-grid" aria-label="Summary statistics" id="kpi-section">
 
-        <div class="kpi-card kpi-total" id="kpi-total">
+        <div class="kpi-card kpi-total" id="kpi-total" title="Total number of victims across all risk levels">
           <div class="kpi-icon-wrap"><i class="fa-solid fa-users"></i></div>
           <div class="kpi-body">
             <div class="kpi-label">Total Victims</div>
@@ -149,7 +148,7 @@
           </div>
         </div>
 
-        <div class="kpi-card kpi-critical" id="kpi-critical">
+        <div class="kpi-card kpi-critical" id="kpi-critical" title="Distress score ≥ 80 — Immediate intervention required">
           <div class="kpi-icon-wrap"><i class="fa-solid fa-circle-exclamation"></i></div>
           <div class="kpi-body">
             <div class="kpi-label">Critical</div>
@@ -158,7 +157,7 @@
           </div>
         </div>
 
-        <div class="kpi-card kpi-high" id="kpi-high">
+        <div class="kpi-card kpi-high" id="kpi-high" title="Distress score 70–79 — Close monitoring needed">
           <div class="kpi-icon-wrap"><i class="fa-solid fa-arrow-trend-up"></i></div>
           <div class="kpi-body">
             <div class="kpi-label">High Risk</div>
@@ -167,7 +166,7 @@
           </div>
         </div>
 
-        <div class="kpi-card kpi-medium" id="kpi-medium">
+        <div class="kpi-card kpi-medium" id="kpi-medium" title="Distress score 40–69 — Regular follow-up scheduled">
           <div class="kpi-icon-wrap"><i class="fa-solid fa-minus"></i></div>
           <div class="kpi-body">
             <div class="kpi-label">Medium Risk</div>
@@ -176,7 +175,7 @@
           </div>
         </div>
 
-        <div class="kpi-card kpi-low" id="kpi-low">
+        <div class="kpi-card kpi-low" id="kpi-low" title="Distress score < 40 — Stable and in recovery">
           <div class="kpi-icon-wrap"><i class="fa-solid fa-circle-check"></i></div>
           <div class="kpi-body">
             <div class="kpi-label">Low Risk</div>
@@ -194,9 +193,9 @@
         <div class="vc-card">
           <div class="vc-card-header">
             <div class="vc-card-title">
-              <i class="fa-solid fa-triangle-exclamation"></i>
-              Auto-Triage Table
-              <span style="font-size:11px;color:var(--color-text-muted);font-weight:500;">(sorted by distress score)</span>
+              <i class="fa-solid fa-list-ol"></i>
+              Priority Queue
+              <span class="table-title-sub">· sorted by distress score</span>
             </div>
             <div class="table-toolbar">
               <!-- Search -->
@@ -226,16 +225,25 @@
           </div>
 
           <div class="triage-table-wrap">
-            <table class="triage-table" role="table" aria-label="Victim triage table">
+            <table class="triage-table" role="table" aria-label="Victim priority queue">
+              <colgroup>
+                <col style="width:100px">
+                <col style="width:auto">
+                <col style="width:170px">
+                <col style="width:90px">
+                <col style="width:110px">
+                <col style="width:100px">
+                <col style="width:60px">
+              </colgroup>
               <thead>
                 <tr>
-                  <th scope="col">ID</th>
-                  <th scope="col">Victim</th>
-                  <th scope="col">Category</th>
-                  <th scope="col">Score</th>
-                  <th scope="col">Risk</th>
-                  <th scope="col">Last Seen</th>
-                  <th scope="col">Action</th>
+                  <th scope="col" class="th-left">ID</th>
+                  <th scope="col" class="th-left">Victim</th>
+                  <th scope="col" class="th-left">Category</th>
+                  <th scope="col" class="th-center">Score</th>
+                  <th scope="col" class="th-left">Risk</th>
+                  <th scope="col" class="th-left">Last Seen</th>
+                  <th scope="col" class="th-center">Action</th>
                 </tr>
               </thead>
               <tbody id="triage-tbody" aria-live="polite" aria-label="Victim rows">
@@ -390,31 +398,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 <script type="module" src="/js/dashboard.js"></script>
 
-<!-- Topbar toggle wired here so it works before module loads -->
-<script>
-  document.getElementById('topbar-toggle')?.addEventListener('click', () => {
-    const sidebar = document.getElementById('sidebar');
-    const backdrop = document.getElementById('sidebar-backdrop');
-    const isDesktop = window.innerWidth >= 992;
-    if (isDesktop) {
-      sidebar.classList.toggle('collapsed');
-      localStorage.setItem('sidebar_collapsed', sidebar.classList.contains('collapsed'));
-    } else {
-      sidebar.classList.toggle('open');
-      backdrop.classList.toggle('show');
-      document.body.style.overflow = sidebar.classList.contains('open') ? 'hidden' : '';
-    }
-  });
-  document.getElementById('sidebar-backdrop')?.addEventListener('click', () => {
-    document.getElementById('sidebar').classList.remove('open');
-    document.getElementById('sidebar-backdrop').classList.remove('show');
-    document.body.style.overflow = '';
-  });
-  // Restore collapsed state
-  if (window.innerWidth >= 992 && localStorage.getItem('sidebar_collapsed') === 'true') {
-    document.getElementById('sidebar')?.classList.add('collapsed');
-  }
-</script>
+<!-- Sidebar toggle and icon swap handled by initSidebar() in utils.js -->
 
 </body>
 </html>

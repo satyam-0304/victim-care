@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════
-   dashboard.css — KPI Cards, Triage Table, Badges, Drawer
+   dashboard.css — KPI Cards, Priority Queue Table, Badges, Drawer
    ═══════════════════════════════════════════════════════════ */
 
 /* ══════════════════════════════════════════════════════
@@ -33,6 +33,13 @@
   opacity: 0.6;
 }
 .kpi-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+
+/* Count-up animation */
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.kpi-value.counting { animation: countUp 0.45s var(--ease) both; }
 
 .kpi-icon-wrap {
   width: 42px; height: 42px;
@@ -97,19 +104,38 @@
   background: var(--color-surface-alt);
   border-bottom: 1px solid var(--color-border);
   white-space: nowrap;
+  text-align: left;
 }
 .triage-table thead th:first-child { border-radius: var(--r-sm) 0 0 0; }
 .triage-table thead th:last-child  { border-radius: 0 var(--r-sm) 0 0; }
+
+/* Column alignment helpers */
+.th-left   { text-align: left !important; }
+.th-center { text-align: center !important; }
+.th-right  { text-align: right !important; }
+.td-center { text-align: center !important; }
+.td-right  { text-align: right !important; }
 
 .triage-table tbody tr {
   border-bottom: 1px solid var(--color-border-light);
   transition: background 0.15s;
   cursor: default;
+  border-left: 3px solid transparent;
 }
 .triage-table tbody tr:hover { background: var(--color-surface-alt); }
 .triage-table tbody tr:last-child { border-bottom: none; }
 
-.triage-table td { padding: 13px 14px; vertical-align: middle; }
+/* Risk-level left-border stripes */
+.triage-table tbody tr.row-risk-critical { border-left-color: var(--color-critical); }
+.triage-table tbody tr.row-risk-high     { border-left-color: var(--color-high); }
+.triage-table tbody tr.row-risk-medium   { border-left-color: var(--color-medium); }
+.triage-table tbody tr.row-risk-low      { border-left-color: var(--color-low); }
+
+.triage-table td {
+  padding: 12px 14px;
+  vertical-align: middle;
+  text-align: left;
+}
 
 /* ── Victim ID Link ────────────────────────────────────── */
 .victim-id-link {
@@ -127,7 +153,11 @@
 .victim-location { font-size: 11.5px; color: var(--color-text-muted); margin-top: 1px; }
 
 /* ── Score Cell ────────────────────────────────────────── */
-.score-cell { display: flex; flex-direction: column; gap: 4px; min-width: 70px; }
+.score-cell {
+  display: flex; flex-direction: column;
+  gap: 4px; min-width: 70px;
+  align-items: center; /* center-align score within its cell */
+}
 .score-num {
   font-size: 15px; font-weight: 800;
   letter-spacing: -0.5px; line-height: 1;
@@ -211,6 +241,14 @@
   display: flex; align-items: center;
   gap: 10px; flex-wrap: wrap;
 }
+
+/* Table card title sub-label */
+.table-title-sub {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  font-weight: 400;
+  margin-left: 2px;
+}
 .search-wrap {
   position: relative; flex: 1; min-width: 180px;
 }
@@ -269,8 +307,12 @@
 
 /* ── Auto-refresh indicator ───────────────────────────── */
 .auto-refresh-badge {
-  display: flex; align-items: center; gap: 5px;
-  font-size: 11px; color: var(--color-text-muted); font-weight: 500;
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 10px;
+  background: rgba(16,185,129,0.08);
+  border: 1px solid rgba(16,185,129,0.18);
+  border-radius: var(--r-full);
+  font-size: 11px; color: #065F46; font-weight: 600;
 }
 .auto-refresh-dot {
   width: 7px; height: 7px; border-radius: 50%;
@@ -517,3 +559,30 @@
   50%       { background: rgba(220, 38, 38, 0.04); }
 }
 .row-critical { animation: critical-pulse 3s ease-in-out infinite; }
+
+/* ── Topbar page title accent ──────────────────────────── */
+.topbar-page-title {
+  position: relative;
+  padding-left: 10px;
+}
+.topbar-page-title::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 10%; bottom: 10%;
+  width: 3px;
+  background: linear-gradient(180deg, var(--color-primary-light), var(--color-primary));
+  border-radius: var(--r-full);
+}
+
+/* ── Hamburger icon swap transition ───────────────────── */
+.topbar-toggle-icon,
+#topbar-toggle-icon {
+  display: inline-block;
+  transition: transform 0.22s var(--ease), opacity 0.18s;
+}
+#topbar-toggle-icon.fa-xmark {
+  transform: rotate(90deg);
+}
+#topbar-toggle-icon.fa-bars {
+  transform: rotate(0deg);
+}
