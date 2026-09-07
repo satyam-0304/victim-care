@@ -13,16 +13,18 @@ import {
   logout,
 } from './utils.js';
 
+import { db } from './firebase-client.js';
+import { collection, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+
 // ── State ──────────────────────────────────────────────────
 let ALL_VICTIMS        = [];     // full dataset from API
 let FILTERED_VICTIMS   = [];     // after search/filter
 let activeFilter       = 'All';  // current risk filter
 let searchQuery        = '';     // current search term
 let trendChartInstance = null;   // Chart.js instance
-let refreshTimer       = null;   // setInterval handle
 let drawerOpen         = false;
 let currentVictimId    = null;
-const REFRESH_INTERVAL = 60_000; // 60 seconds
+let unsubscribeVictims = null;   // Firebase listener unsubscribe function
 
 // ── Entry point ────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', async () => {
@@ -31,57 +33,62 @@ document.addEventListener('DOMContentLoaded', async () => {
   initSidebar();
   setActiveSidebarLink();
   initEventListeners();
-  await loadDashboard();
-  startAutoRefresh();
+  startRealtimeListener();
 });
 
 // ══════════════════════════════════════════════════════
-// DATA LOADING
+// DATA LOADING (REAL-TIME)
 // ══════════════════════════════════════════════════════
 
-async function loadDashboard(silent = false) {
-  if (!silent) showSkeleton();
+function startRealtimeListener() {
+  showSkeleton();
 
-  try {
-    const data = await apiFetch('/api/victims');
-    ALL_VICTIMS = data.victims || [];
+  const victimsRef = collection(db, 'victims');
+  const q = query(victimsRef, orderBy('current_distress_score', 'desc'));
 
-    // Sort by distress score (highest first) — Auto-Triage
-    ALL_VICTIMS.sort((a, b) => b.current_distress_score - a.current_distress_score);
+  unsubscribeVictims = onSnapshot(q, (snapshot) => {
+    ALL_VICTIMS = snapshot.docs.map(doc => {
+      const v = doc.data();
+      return {
+        victim_id:             v.victim_id || doc.id,
+        name:                  v.name || 'Unknown',
+        age:                   v.age,
+        gender:                v.gender,
+        location:              v.location,
+        crime_category:        v.crime_category,
+        current_distress_score:v.current_distress_score,
+        current_risk_level:    v.current_risk_level,
+        case_status:           v.case_status || 'Active',
+        assigned_counselor:    v.assigned_counselor,
+        last_interaction:      v.last_interaction && v.last_interaction.toDate ? v.last_interaction.toDate().toISOString() : v.last_interaction,
+      };
+    });
 
-    applyFilters();          // sets FILTERED_VICTIMS + renders table
-    renderKPICards();        // aggregate counts
-    initSystemTrendChart();  // Chart.js overview chart
-
-    if (!silent) {
-      updateRefreshTimestamp();
-    }
-  } catch (err) {
-    console.error('[Dashboard] Load error:', err);
-    if (!silent) {
-      showTableError(err.message);
-    } else {
-      showToast('Auto-refresh failed: ' + err.message, 'warning');
-    }
-  }
-}
-
-// ══════════════════════════════════════════════════════
-// AUTO-REFRESH
-// ══════════════════════════════════════════════════════
-
-function startAutoRefresh() {
-  clearInterval(refreshTimer);
-  refreshTimer = setInterval(async () => {
-    await loadDashboard(true); // silent refresh
+    applyFilters();
+    renderKPICards();
+    initSystemTrendChart();
     updateRefreshTimestamp();
-    showToast('Dashboard data refreshed', 'info', 2000);
-  }, REFRESH_INTERVAL);
+    
+    // Optionally show a subtle toast on updates, but might be too noisy if data changes frequently.
+    // showToast('Data updated in real-time', 'info', 1000);
+  }, (error) => {
+    console.error('[Dashboard] Real-time listener error:', error);
+    showTableError(error.message);
+  });
 }
+
+// Keeping a manual refresh function in case the user clicks the button
+async function loadDashboard(silent = false) {
+  if (!silent) showToast('Dashboard is live via Firebase', 'success', 2000);
+}
+
+// ══════════════════════════════════════════════════════
+// AUTO-REFRESH (REMOVED)
+// ══════════════════════════════════════════════════════
 
 function updateRefreshTimestamp() {
   const el = document.getElementById('last-refresh-time');
-  if (el) el.textContent = new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+  if (el) el.textContent = new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 }
 
 // ══════════════════════════════════════════════════════

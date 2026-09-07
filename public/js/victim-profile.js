@@ -232,62 +232,113 @@ function renderQuickStats(victim) {
 }
 
 // ══════════════════════════════════════════════════════
-// SESSION TRANSCRIPTS
+// SESSION TRANSCRIPTS (Real-Time)
 // ══════════════════════════════════════════════════════
+
+import { db } from './firebase-client.js';
+import { collection, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+
+let unsubscribeChats = null;
 
 function renderSessionTranscripts(victim) {
   const container = document.getElementById('transcript-list');
   if (!container) return;
 
-  const history = [...(victim.history || [])].reverse(); // newest first
+  // We will listen to real-time updates directly from Firestore instead of using the API data
+  if (unsubscribeChats) unsubscribeChats();
 
-  if (!history.length) {
-    container.innerHTML = '<div class="last-seen" style="padding:24px;">No session transcripts found.</div>';
-    return;
-  }
+  const chatsRef = collection(db, 'chats', victim.victim_id, 'messages');
+  const q = query(chatsRef, orderBy('timestamp', 'asc'));
 
-  container.innerHTML = history.map((entry, idx) => {
-    const scoreColor = getScoreColor(entry.distress_score);
-    const sessionNum = victim.history.length - idx;
-    return `
-      <div class="transcript-entry anim-fade-up" style="animation-delay:${idx * 0.06}s">
-        <div class="transcript-meta">
-          <div class="transcript-timestamp">
-            <i class="fa-regular fa-calendar-check"></i>
-            Session ${sessionNum} &mdash; ${formatDateTime(entry.timestamp)}
-          </div>
-          <span class="transcript-score risk-badge" style="background:${scoreColor}18;color:${scoreColor};border:1px solid ${scoreColor}30;">
-            Score: ${entry.distress_score}
-          </span>
-        </div>
-        <div class="transcript-chat">
-          <div class="chat-bubble bubble-user">
-            <div class="bubble-label">Survivor</div>
-            ${escapeHtml(entry.user_message || '—')}
-          </div>
-          <div class="chat-bubble bubble-ai">
-            <div class="bubble-label">AI Companion</div>
-            ${escapeHtml(entry.ai_reply || '—')}
-          </div>
-        </div>
-        <div class="transcript-action">
-          <div class="transcript-action-icon"><i class="fa-solid fa-lightbulb"></i></div>
-          <div>
-            <div class="transcript-action-text">
-              <strong>Recommended:</strong> ${escapeHtml(entry.recommended_action || 'No recommendation')}
+  unsubscribeChats = onSnapshot(q, (snapshot) => {
+    let history = [];
+    let currentUserMsg = null;
+    let currentAiMsg = null;
+    let lastTime = null;
+    let distress_score = victim.current_distress_score; // fallback
+
+    snapshot.docs.forEach((d) => {
+      const msg = d.data();
+      const timeStr = msg.timestamp && msg.timestamp.toDate ? msg.timestamp.toDate().toISOString() : new Date().toISOString();
+      if (msg.distress_score) distress_score = msg.distress_score;
+
+      if (msg.role === 'user') {
+        if (currentUserMsg) history.push({ timestamp: lastTime, user_message: currentUserMsg, ai_reply: currentAiMsg, distress_score });
+        currentUserMsg = msg.text;
+        currentAiMsg = null;
+        lastTime = timeStr;
+      } else if (msg.role === 'assistant') {
+        currentAiMsg = msg.text;
+        lastTime = timeStr;
+        history.push({ timestamp: lastTime, user_message: currentUserMsg || '', ai_reply: currentAiMsg, distress_score });
+        currentUserMsg = null;
+        currentAiMsg = null;
+      }
+    });
+
+    if (currentUserMsg || currentAiMsg) {
+       history.push({ timestamp: lastTime, user_message: currentUserMsg || '', ai_reply: currentAiMsg || '', distress_score });
+    }
+
+    // Attach latest intervention status to the very last message in history
+    if (history.length > 0 && victim.history && victim.history.length > 0) {
+        const latestFromApi = victim.history[victim.history.length - 1];
+        history[history.length - 1].action_taken = latestFromApi.action_taken;
+        history[history.length - 1].action_taken_by = latestFromApi.action_taken_by;
+        history[history.length - 1].action_taken_at = latestFromApi.action_taken_at;
+        history[history.length - 1].recommended_action = latestFromApi.recommended_action;
+    }
+
+    history.reverse(); // newest first
+
+    if (!history.length) {
+      container.innerHTML = '<div class="last-seen" style="padding:24px;">No session transcripts found.</div>';
+      return;
+    }
+
+    container.innerHTML = history.map((entry, idx) => {
+      const scoreColor = getScoreColor(entry.distress_score || victim.current_distress_score);
+      const sessionNum = history.length - idx;
+      return `
+        <div class="transcript-entry anim-fade-up" style="animation-delay:${idx * 0.06}s">
+          <div class="transcript-meta">
+            <div class="transcript-timestamp">
+              <i class="fa-regular fa-calendar-check"></i>
+              Session ${sessionNum} &mdash; ${formatDateTime(entry.timestamp)}
             </div>
-            ${entry.action_taken ? `
-              <div class="transcript-action-taken">
-                <i class="fa-solid fa-circle-check"></i>
-                Actioned by ${escapeHtml(entry.action_taken_by)} — ${formatTimeAgo(entry.action_taken_at)}
-              </div>` : `
-              <div style="font-size:11.5px;color:var(--color-medium);font-weight:600;margin-top:5px;">
-                <i class="fa-solid fa-clock"></i> Action pending
-              </div>`}
+            <span class="transcript-score risk-badge" style="background:${scoreColor}18;color:${scoreColor};border:1px solid ${scoreColor}30;">
+              Score: ${entry.distress_score || victim.current_distress_score}
+            </span>
           </div>
-        </div>
-      </div>`;
-  }).join('');
+          <div class="transcript-chat">
+            <div class="chat-bubble bubble-user">
+              <div class="bubble-label">Survivor</div>
+              ${escapeHtml(entry.user_message || '—')}
+            </div>
+            <div class="chat-bubble bubble-ai">
+              <div class="bubble-label">AI Companion</div>
+              ${escapeHtml(entry.ai_reply || '—')}
+            </div>
+          </div>
+          <div class="transcript-action">
+            <div class="transcript-action-icon"><i class="fa-solid fa-lightbulb"></i></div>
+            <div>
+              <div class="transcript-action-text">
+                <strong>Recommended:</strong> ${escapeHtml(entry.recommended_action || 'No recommendation available yet')}
+              </div>
+              ${entry.action_taken ? `
+                <div class="transcript-action-taken">
+                  <i class="fa-solid fa-circle-check"></i>
+                  Actioned by ${escapeHtml(entry.action_taken_by)} — ${formatTimeAgo(entry.action_taken_at)}
+                </div>` : `
+                <div style="font-size:11.5px;color:var(--color-medium);font-weight:600;margin-top:5px;">
+                  <i class="fa-solid fa-clock"></i> Action pending
+                </div>`}
+            </div>
+          </div>
+        </div>`;
+    }).join('');
+  });
 }
 
 // ══════════════════════════════════════════════════════

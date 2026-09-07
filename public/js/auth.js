@@ -1,45 +1,9 @@
 // ═══════════════════════════════════════════════════════════
-// auth.js — Counselor Login Handler (Batch 3 — Full Rewrite)
-// ═══════════════════════════════════════════════════════════
-//
-// ⚠️  UPGRADE POINT (MVP → Production):
-//     Replace validateCredentials() with a real API call:
-//
-//     const res  = await fetch('/api/auth/login', {
-//       method: 'POST',
-//       headers: { 'Content-Type': 'application/json' },
-//       body: JSON.stringify({ id, password }),
-//     });
-//     const data = await res.json();
-//     if (!data.success) { showError(data.message); return; }
-//     sessionStorage.setItem('counselor_session', JSON.stringify(data.user));
-//     window.location.replace('/index.html');
+// auth.js — Counselor Login Handler (Firebase Auth Integrated)
 // ═══════════════════════════════════════════════════════════
 
-'use strict';
-
-// ──────────────────────────────────────────────────────────
-// ⚠️  MOCK DATA — Remove / replace before production.
-// ──────────────────────────────────────────────────────────
-const DUMMY_USERS = [
-  {
-    id:         'GOV-C-001',
-    password:   'secure@123',
-    name:       'Dr. Ananya Sharma',
-    role:       'Senior Counselor',
-    department: 'Witness Protection Unit',
-    initials:   'AS',
-  },
-  {
-    id:         'GOV-C-002',
-    password:   'care@456',
-    name:       'Mr. Rajiv Mehta',
-    role:       'Junior Counselor',
-    department: 'Victim Support Services',
-    initials:   'RM',
-  },
-];
-// ── End Mock Data ──────────────────────────────────────────
+import { auth } from './firebase-client.js';
+import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
 
 // ══════════════════════════════════════════════════════════
 // DOM REFERENCES
@@ -60,7 +24,7 @@ const tabsContainer    = authModal?.querySelector('.auth-tabs');
 
 // Sign In Form
 const loginForm        = document.getElementById('login-form');
-const counselorIdEl    = document.getElementById('counselor-id');
+const counselorIdEl    = document.getElementById('counselor-id'); // Now used for email
 const passwordEl       = document.getElementById('password');
 const errorEl          = document.getElementById('login-error');
 const errorMsgEl       = document.getElementById('login-error-msg');
@@ -106,10 +70,10 @@ document.addEventListener('DOMContentLoaded', () => {
   loginForm?.addEventListener('submit',    handleLoginSubmit);
   togglePassBtn?.addEventListener('click', () => togglePasswordVisibility(passwordEl, togglePassBtn));
 
-  // Auto-uppercase counselor ID + live validation
+  // Auto-lowercase email + live validation
   counselorIdEl?.addEventListener('input', () => {
     const pos = counselorIdEl.selectionStart;
-    counselorIdEl.value = counselorIdEl.value.toUpperCase();
+    counselorIdEl.value = counselorIdEl.value.toLowerCase();
     counselorIdEl.setSelectionRange(pos, pos);
     clearError();
     validateCounselorIdField();
@@ -117,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   passwordEl?.addEventListener('input', clearError);
 
-  // ── Remember Me — restore saved ID ───────────────────
+  // ── Remember Me — restore saved email ───────────────────
   const savedId = localStorage.getItem('vc_remember_id');
   if (savedId && counselorIdEl) {
     counselorIdEl.value = savedId;
@@ -213,52 +177,56 @@ function switchTab(tab) {
 }
 
 // ══════════════════════════════════════════════════════════
-// SIGN IN — SUBMIT HANDLER
+// SIGN IN — SUBMIT HANDLER (Firebase Auth)
 // ══════════════════════════════════════════════════════════
 async function handleLoginSubmit(e) {
   e.preventDefault();
 
-  const id  = (counselorIdEl?.value || '').trim().toUpperCase();
+  let email  = (counselorIdEl?.value || '').trim().toLowerCase();
   const pwd = (passwordEl?.value   || '');
 
-  if (!id || !pwd) {
-    showError('Please enter both your Counselor ID and Password.');
+  if (email && !email.includes('@')) {
+    email += '@admin.com';
+  }
+
+  if (!email || !pwd) {
+    showError('Please enter both your Email and Password.');
     return;
   }
 
   setLoadingState(true);
 
-  // Simulate async network latency (remove in production)
-  await new Promise(resolve => setTimeout(resolve, 900));
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, pwd);
+    const user = userCredential.user;
+    const token = await user.getIdToken();
 
-  /* ── UPGRADE POINT ─────────────────────────────────────
-     Replace the block below with a real fetch() call.
-     ────────────────────────────────────────────────────── */
-  const user = validateCredentials(id, pwd);
+    // ── Handle "Remember Me" ────────────────────────────
+    if (rememberMeEl?.checked) {
+      localStorage.setItem('vc_remember_id', email);
+    } else {
+      localStorage.removeItem('vc_remember_id');
+    }
 
-  if (!user) {
+    // Build session
+    sessionStorage.setItem('counselor_session', JSON.stringify({
+      id: user.uid,
+      email: user.email,
+      name: user.displayName || user.email,
+      role: 'Counselor',
+      initials: (user.displayName || user.email).substring(0, 2).toUpperCase(),
+      token: token,
+      loginTime: new Date().toISOString(),
+    }));
+
+    window.location.replace('/index.html');
+  } catch (error) {
     setLoadingState(false);
-    showError('Invalid Counselor ID or Password. Please check your credentials and try again.');
+    console.error(error);
+    showError(error.message || 'Invalid Email or Password. Please check your credentials and try again.');
     counselorIdEl?.classList.add('is-invalid');
     passwordEl?.classList.add('is-invalid');
-    return;
   }
-
-  // ── Handle "Remember Me" ────────────────────────────
-  if (rememberMeEl?.checked) {
-    localStorage.setItem('vc_remember_id', id);
-  } else {
-    localStorage.removeItem('vc_remember_id');
-  }
-
-  // Build session — password deliberately excluded
-  const { password: _omit, ...sessionData } = user;
-  sessionStorage.setItem('counselor_session', JSON.stringify({
-    ...sessionData,
-    loginTime: new Date().toISOString(),
-  }));
-
-  window.location.replace('/index.html');
 }
 
 // ══════════════════════════════════════════════════════════
@@ -304,19 +272,11 @@ function showSignupError(msg) {
 }
 
 // ══════════════════════════════════════════════════════════
-// MVP CREDENTIAL VALIDATOR
-// ══════════════════════════════════════════════════════════
-function validateCredentials(id, password) {
-  return DUMMY_USERS.find(u => u.id === id && u.password === password) ?? null;
-}
-
-// ══════════════════════════════════════════════════════════
-// INLINE VALIDATION — Counselor ID field checkmark
+// INLINE VALIDATION — Email field checkmark
 // ══════════════════════════════════════════════════════════
 function validateCounselorIdField() {
-  // Valid format: GOV-C-XXX (at least 3 chars after last dash)
   const val   = counselorIdEl?.value || '';
-  const valid = /^GOV-C-\w{3,}$/.test(val);
+  const valid = val.length >= 5;
   checkIdIcon?.classList.toggle('visible', valid);
 }
 

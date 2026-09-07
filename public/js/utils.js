@@ -219,7 +219,7 @@ export async function apiFetch(url, opts = {}) {
   const session = getSession();
   const headers = {
     'Content-Type': 'application/json',
-    ...(session ? { 'X-Counselor-ID': session.id } : {}),
+    ...(session && session.token ? { 'Authorization': `Bearer ${session.token}` } : {}),
     ...(opts.headers || {}),
   };
   const res = await fetch(url, { ...opts, headers });
