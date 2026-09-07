@@ -2,14 +2,16 @@
 // server/index.js — Victim Care Express API Server (Firebase Integrated)
 // ═══════════════════════════════════════════════════════════════
 
-'use strict';
+import express from 'express';
+import path from 'path';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
+import { initializeApp, cert } from 'firebase-admin/app';
+import { getFirestore, FieldValue } from 'firebase-admin/firestore';
+import { getAuth } from 'firebase-admin/auth';
 
-const express = require('express');
-const path    = require('path');
-const fs      = require('fs');
-const { initializeApp, cert } = require('firebase-admin/app');
-const { getFirestore, FieldValue } = require('firebase-admin/firestore');
-const { getAuth } = require('firebase-admin/auth');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // ── Initialize Firebase Admin ───────────────────────────────────
 let serviceAccount;
@@ -22,7 +24,8 @@ if (process.env.FIREBASE_SERVICE_ACCOUNT) {
   }
 } else {
   try {
-    serviceAccount = require('./hackathon-ram-bharose-firebase-adminsdk-fbsvc-6387197f58.json');
+    const serviceAccountContent = fs.readFileSync(path.join(__dirname, 'hackathon-ram-bharose-firebase-adminsdk-fbsvc-6387197f58.json'), 'utf8');
+    serviceAccount = JSON.parse(serviceAccountContent);
   } catch (e) {
     console.error("Firebase Service Account key missing. Make sure it's in the server folder or the FIREBASE_SERVICE_ACCOUNT env var is set.");
     process.exit(1);
@@ -233,4 +236,4 @@ if (process.env.NODE_ENV !== 'production') {
   });
 }
 
-module.exports = app;
+export default app;

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "AI-Powered Mental Health Monitoring System — Admin Dashboard",
   "main": "server/index.js",
+  "type": "module",
   "scripts": {
     "start": "node server/index.js",
     "dev": "nodemon server/index.js"
