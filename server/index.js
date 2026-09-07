@@ -13,11 +13,20 @@ const { getAuth } = require('firebase-admin/auth');
 
 // ── Initialize Firebase Admin ───────────────────────────────────
 let serviceAccount;
-try {
-  serviceAccount = require('./hackathon-ram-bharose-firebase-adminsdk-fbsvc-6387197f58.json');
-} catch (e) {
-  console.error("Firebase Service Account key missing. Make sure it's in the server folder.");
-  process.exit(1);
+if (process.env.FIREBASE_SERVICE_ACCOUNT) {
+  try {
+    serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+  } catch (e) {
+    console.error("Failed to parse FIREBASE_SERVICE_ACCOUNT environment variable.");
+    process.exit(1);
+  }
+} else {
+  try {
+    serviceAccount = require('./hackathon-ram-bharose-firebase-adminsdk-fbsvc-6387197f58.json');
+  } catch (e) {
+    console.error("Firebase Service Account key missing. Make sure it's in the server folder or the FIREBASE_SERVICE_ACCOUNT env var is set.");
+    process.exit(1);
+  }
 }
 
 const appAdmin = initializeApp({
@@ -207,17 +216,21 @@ app.get('*', (req, res) => {
 });
 
 // ── Start Server ───────────────────────────────────────────────
-app.listen(PORT, () => {
-  console.log('');
-  console.log('  ██╗   ██╗██╗ ██████╗████████╗██╗███╗   ███╗ ██████╗ █████╗ ██████╗ ███████╗');
-  console.log('  ██║   ██║██║██╔════╝╚══██╔══╝██║████╗ ████║██╔════╝██╔══██╗██╔══██╗██╔════╝');
-  console.log('  ██║   ██║██║██║        ██║   ██║██╔████╔██║██║     ███████║██████╔╝█████╗  ');
-  console.log('  ╚██╗ ██╔╝██║██║        ██║   ██║██║╚██╔╝██║██║     ██╔══██║██╔══██╗██╔══╝  ');
-  console.log('   ╚████╔╝ ██║╚██████╗   ██║   ██║██║ ╚═╝ ██║╚██████╗██║  ██║██║  ██║███████╗');
-  console.log('    ╚═══╝  ╚═╝ ╚═════╝   ╚═╝   ╚═╝╚═╝     ╚═╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝');
-  console.log('');
-  console.log(`  🛡  Victim Care Admin Portal — http://localhost:${PORT}`);
-  console.log(`  🔥  Connected to Firebase Live DB`);
-  console.log(`  📁  Serving static files from: /public`);
-  console.log('');
-});
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log('');
+    console.log('  ██╗   ██╗██╗ ██████╗████████╗██╗███╗   ███╗ ██████╗ █████╗ ██████╗ ███████╗');
+    console.log('  ██║   ██║██║██╔════╝╚══██╔══╝██║████╗ ████║██╔════╝██╔══██╗██╔══██╗██╔════╝');
+    console.log('  ██║   ██║██║██║        ██║   ██║██╔████╔██║██║     ███████║██████╔╝█████╗  ');
+    console.log('  ╚██╗ ██╔╝██║██║        ██║   ██║██║╚██╔╝██║██║     ██╔══██║██╔══██╗██╔══╝  ');
+    console.log('   ╚████╔╝ ██║╚██████╗   ██║   ██║██║ ╚═╝ ██║╚██████╗██║  ██║██║  ██║███████╗');
+    console.log('    ╚═══╝  ╚═╝ ╚═════╝   ╚═╝   ╚═╝╚═╝     ╚═╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝');
+    console.log('');
+    console.log(`  🛡  Victim Care Admin Portal — http://localhost:${PORT}`);
+    console.log(`  🔥  Connected to Firebase Live DB`);
+    console.log(`  📁  Serving static files from: /public`);
+    console.log('');
+  });
+}
+
+module.exports = app;
