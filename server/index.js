@@ -13,6 +13,9 @@ import { getAuth } from 'firebase-admin/auth';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+
 // ── Initialize Firebase Admin ───────────────────────────────────
 let serviceAccount;
 if (process.env.FIREBASE_SERVICE_ACCOUNT) {
@@ -20,15 +23,12 @@ if (process.env.FIREBASE_SERVICE_ACCOUNT) {
     serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
   } catch (e) {
     console.error("Failed to parse FIREBASE_SERVICE_ACCOUNT environment variable.");
-    process.exit(1);
   }
 } else {
   try {
-    const serviceAccountContent = fs.readFileSync(path.join(__dirname, 'hackathon-ram-bharose-firebase-adminsdk-fbsvc-6387197f58.json'), 'utf8');
-    serviceAccount = JSON.parse(serviceAccountContent);
+    serviceAccount = require('./hackathon-ram-bharose-firebase-adminsdk-fbsvc-6387197f58.json');
   } catch (e) {
     console.error("Firebase Service Account key missing. Make sure it's in the server folder or the FIREBASE_SERVICE_ACCOUNT env var is set.");
-    process.exit(1);
   }
 }
 
