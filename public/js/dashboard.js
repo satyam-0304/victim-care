@@ -13,8 +13,7 @@ import {
   logout,
 } from './utils.js';
 
-import { db } from './firebase-client.js';
-import { collection, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+
 
 // ── State ──────────────────────────────────────────────────
 let ALL_VICTIMS        = [];     // full dataset from API
@@ -41,45 +40,33 @@ document.addEventListener('DOMContentLoaded', async () => {
 // ══════════════════════════════════════════════════════
 
 function startRealtimeListener() {
-  showSkeleton();
+  loadDashboardData();
+  // Poll every 30 seconds for real-time feel
+  setInterval(() => loadDashboardData(true), 30000);
+}
 
-  const victimsRef = collection(db, 'victims');
-  const q = query(victimsRef, orderBy('current_distress_score', 'desc'));
+async function loadDashboardData(silent = false) {
+  if (!silent) showSkeleton();
 
-  unsubscribeVictims = onSnapshot(q, (snapshot) => {
-    ALL_VICTIMS = snapshot.docs.map(doc => {
-      const v = doc.data();
-      return {
-        victim_id:             v.victim_id || doc.id,
-        name:                  v.name || 'Unknown',
-        age:                   v.age,
-        gender:                v.gender,
-        location:              v.location,
-        crime_category:        v.crime_category,
-        current_distress_score:v.current_distress_score,
-        current_risk_level:    v.current_risk_level,
-        case_status:           v.case_status || 'Active',
-        assigned_counselor:    v.assigned_counselor,
-        last_interaction:      v.last_interaction && v.last_interaction.toDate ? v.last_interaction.toDate().toISOString() : v.last_interaction,
-      };
-    });
+  try {
+    const data = await apiFetch('/api/victims');
+    ALL_VICTIMS = data.victims || [];
 
     applyFilters();
     renderKPICards();
     initSystemTrendChart();
     updateRefreshTimestamp();
     
-    // Optionally show a subtle toast on updates, but might be too noisy if data changes frequently.
-    // showToast('Data updated in real-time', 'info', 1000);
-  }, (error) => {
-    console.error('[Dashboard] Real-time listener error:', error);
+    if (!silent) showToast('Dashboard loaded from API', 'success', 2000);
+  } catch (error) {
+    console.error('[Dashboard] API error:', error);
     showTableError(error.message);
-  });
+  }
 }
 
-// Keeping a manual refresh function in case the user clicks the button
+// Manual refresh function
 async function loadDashboard(silent = false) {
-  if (!silent) showToast('Dashboard is live via Firebase', 'success', 2000);
+  await loadDashboardData(silent);
 }
 
 // ══════════════════════════════════════════════════════

@@ -71,24 +71,42 @@ async function verifyAuthToken(req, res, next) {
 // ── GET /api/victims ── all victims summary (for dashboard)
 app.get('/api/victims', verifyAuthToken, async (req, res) => {
   try {
+    const victimsSnap = await db.collection('victims').get();
     const interventionsSnap = await db.collection('interventions').get();
+    const chatsSnap = await db.collection('chats').get();
+    
+    // Create lookup maps for faster access
+    const intersByVictim = {};
+    const chatsBySessionId = {};
+    
+    chatsSnap.forEach(doc => {
+      chatsBySessionId[doc.id] = doc.data();
+    });
+    
+    interventionsSnap.forEach(doc => {
+      const data = doc.data();
+      const vid = data.victim_id;
+      if (vid) {
+        // Keep the latest intervention for each victim
+        if (!intersByVictim[vid] || (data.lastUpdated && intersByVictim[vid].lastUpdated && data.lastUpdated.toMillis() > intersByVictim[vid].lastUpdated.toMillis())) {
+          intersByVictim[vid] = { id: doc.id, ...data };
+        }
+      }
+    });
+    
     let dashboardList = [];
     
-    for (const doc of interventionsSnap.docs) {
-      const interData = doc.data();
-      const sessionId = doc.id;
-      const victimId = interData.victim_id;
-      
-      let chatData = {};
-      const chatDoc = await db.collection('chats').doc(sessionId).get();
-      if (chatDoc.exists) {
-         chatData = chatDoc.data();
-      }
+    // Add all known victims
+    victimsSnap.forEach(doc => {
+      const victimId = doc.id;
+      const vDict = doc.data();
+      const interData = intersByVictim[victimId] || {};
+      const sessionId = interData.id || null;
+      const chatData = sessionId ? (chatsBySessionId[sessionId] || {}) : {};
       
       const chatHistory = chatData.chatHistory || [];
       let lastUserMsg = "";
       let lastAiReply = "";
-      
       for (let i = chatHistory.length - 1; i >= 0; i--) {
         const msg = chatHistory[i];
         if (!lastAiReply && msg.role === 'assistant') lastAiReply = msg.text;
@@ -96,51 +114,29 @@ app.get('/api/victims', verifyAuthToken, async (req, res) => {
         if (lastUserMsg && lastAiReply) break;
       }
       
-      let victimName = "Unknown";
-      let crimeCategory = "N/A";
-      let caseStatus = "Unknown";
-      let age = null;
-      let gender = null;
-      let location = null;
-      let assignedCounselor = null;
-      
-      if (victimId) {
-        const victimDoc = await db.collection('victims').doc(victimId).get();
-        if (victimDoc.exists) {
-          const vDict = victimDoc.data();
-          victimName = vDict.name || "Unknown";
-          crimeCategory = vDict.crime_category || "N/A";
-          caseStatus = vDict.case_status || "Active";
-          age = vDict.age;
-          gender = vDict.gender;
-          location = vDict.location;
-          assignedCounselor = vDict.assigned_counselor;
-        }
-      }
-      
       dashboardList.push({
-        victim_id: victimId || sessionId,
-        session_id: sessionId,
-        name: victimName,
-        age: age,
-        gender: gender,
-        location: location,
-        crime_category: crimeCategory,
-        case_status: caseStatus,
-        assigned_counselor: assignedCounselor,
+        victim_id: victimId,
+        session_id: sessionId || '',
+        name: vDict.name || "Unknown",
+        age: vDict.age,
+        gender: vDict.gender,
+        location: vDict.location,
+        crime_category: vDict.crime_category || "N/A",
+        case_status: vDict.case_status || "Active",
+        assigned_counselor: vDict.assigned_counselor,
         victimProfile: chatData.victimProfile || "",
         message_transcript: lastUserMsg,
         ai_reply: lastAiReply,
-        current_distress_score: interData.latestDistressScore || 0,
-        current_risk_level: interData.latestRiskLevel || "Low",
-        primary_emotion: interData.latestEmotion || "Unknown",
-        immediate_escalation: interData.needsEscalation || false,
+        current_distress_score: interData.latestDistressScore !== undefined ? interData.latestDistressScore : (vDict.current_distress_score || 0),
+        current_risk_level: interData.latestRiskLevel || vDict.current_risk_level || "Low",
+        primary_emotion: interData.latestEmotion || vDict.latest_emotion || "Unknown",
+        immediate_escalation: interData.needsEscalation !== undefined ? interData.needsEscalation : (vDict.needsEscalation || false),
         recommended_intervention: interData.recommendedIntervention || "None",
         actionable_link: interData.actionableLink || "",
-        last_interaction: interData.lastUpdated && interData.lastUpdated.toDate ? interData.lastUpdated.toDate().toISOString() : null,
-        recent_history: []
+        last_interaction: interData.lastUpdated && interData.lastUpdated.toDate ? interData.lastUpdated.toDate().toISOString() 
+                        : (vDict.last_interaction && vDict.last_interaction.toDate ? vDict.last_interaction.toDate().toISOString() : (vDict.last_interaction || null))
       });
-    }
+    });
     
     dashboardList.sort((a, b) => b.current_distress_score - a.current_distress_score);
     res.json({ victims: dashboardList });

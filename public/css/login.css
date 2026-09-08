@@ -84,6 +84,7 @@
   border-radius: 16px;
   display: flex; align-items: center; justify-content: center;
   font-size: 22px; color: #93C5FD;
+  overflow: hidden; padding: 2px;
 }
 .login-brand-name {
   font-size: 22px; font-weight: 800;
@@ -321,13 +322,14 @@
   text-align: center; margin-bottom: 24px;
 }
 .auth-modal-logo {
-  width: 48px; height: 48px;
+  width: 64px; height: 64px;
   background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-mid) 100%);
   border-radius: 14px;
   display: flex; align-items: center; justify-content: center;
   font-size: 20px; color: #fff;
   margin-bottom: 12px;
   box-shadow: 0 6px 20px rgba(30,58,138,0.35);
+  overflow: hidden; padding: 2px;
 }
 .auth-modal-title {
   font-size: 20px; font-weight: 800;

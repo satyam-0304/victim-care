@@ -59,7 +59,7 @@ async function loadVictimProfile(victimId) {
 // ══════════════════════════════════════════════════════
 
 function renderProfile(victim) {
-  document.title = `${victim.victim_id} — Victim Care Admin`;
+  document.title = `${victim.victim_id} — Ashraya Admin`;
   document.getElementById('profile-content').style.display = '';
 
   renderProfileHeader(victim);
